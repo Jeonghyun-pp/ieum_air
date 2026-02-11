@@ -119,34 +119,31 @@ export const CampaignCard = memo(function CampaignCard({
   }, []);
 
   // ============================================
-  // Compact Variant (리스트용)
+  // Compact Variant (리스트용 - Notion 스타일)
   // ============================================
   if (variant === 'compact') {
     return (
       <div
         onClick={handleClick}
         className={`
-          bg-white rounded-lg border border-gray-200
-          p-4 cursor-pointer
-          hover:shadow-md hover:border-gray-300
-          transition-all duration-200
-          flex items-center gap-4
+          cursor-pointer
+          flex items-center gap-4 flex-1
           ${className}
         `}
       >
         {/* 썸네일 */}
-        <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
+        <div className="w-16 h-16 overflow-hidden flex-shrink-0 relative">
           {campaign.imageUrl ? (
             <Image
               src={campaign.imageUrl}
               alt={campaign.title}
               fill
               className="object-cover"
-              sizes="80px"
+              sizes="64px"
             />
           ) : (
-            <div className={`w-full h-full ${placeholderColor} flex items-center justify-center`}>
-              <span className="text-2xl text-gray-400">📷</span>
+            <div className="w-full h-full bg-accent flex items-center justify-center">
+              <span className="text-lg text-muted-foreground">📷</span>
             </div>
           )}
         </div>
@@ -159,12 +156,12 @@ export const CampaignCard = memo(function CampaignCard({
                 {status.label}
               </Badge>
             )}
-            <h3 className="font-semibold text-gray-900 truncate">{campaign.title}</h3>
+            <h3 className="text-base font-medium text-foreground truncate">{campaign.title}</h3>
           </div>
-          <p className="text-sm text-gray-600 line-clamp-1 mb-2">
+          <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
             {campaign.description || '캠페인 상세 내용을 확인해보세요.'}
           </p>
-          <div className="flex items-center gap-3 text-xs text-gray-500">
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <div className="flex items-center gap-1">
               <ChannelIcon channel={campaign.channel} />
               <span>{campaign.channel}</span>

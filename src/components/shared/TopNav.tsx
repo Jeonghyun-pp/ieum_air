@@ -27,16 +27,10 @@ const roleConfig: Record<UserRole, { label: string; className: string }> = {
 };
 
 // ============================================
-// Navigation Menu Items (Communique 스타일)
+// Navigation Menu Items
 // ============================================
 
-const navItems = [
-  { label: 'Home', href: '/main' },
-  { label: 'About Us', href: '/about' },
-  { label: 'Services', href: '/services' },
-  { label: 'Client', href: '/client' },
-  { label: 'Contact Us', href: '/contact' },
-];
+const navItems: { label: string; href: string }[] = [];
 
 // ============================================
 // Component
@@ -189,19 +183,7 @@ export function TopNav({
                 로그아웃
               </button>
             </>
-          ) : (
-            <Link
-              href="/auth/login"
-              className="
-                px-4 py-2 rounded-lg
-                bg-purple-600 text-white text-sm font-medium
-                hover:bg-purple-700 active:scale-95
-                transition-all duration-200
-              "
-            >
-              로그인
-            </Link>
-          )}
+          ) : null}
 
           {/* 모바일 메뉴 버튼 */}
           <button

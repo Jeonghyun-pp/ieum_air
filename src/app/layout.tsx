@@ -2,12 +2,13 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { AppProviders } from '@/contexts'
+import { TopNav } from '@/components/shared/top-nav'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'AI 관리형 광고 운영 시스템',
-  description: '자연어로 광고 캠페인을 만들고 관리하세요',
+  title: 'I:EUM',
+  description: '생산성 플랫폼',
 }
 
 export default function RootLayout({
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={inter.className}>
         <AppProviders>
+          <TopNav />
           {children}
         </AppProviders>
       </body>

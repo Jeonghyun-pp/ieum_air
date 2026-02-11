@@ -145,7 +145,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // 역할별 마이페이지 경로
   const getMyPagePath = useCallback(() => {
-    if (!user) return '/auth/login';
+    if (!user) return '/main';
 
     switch (user.role) {
       case 'advertiser':

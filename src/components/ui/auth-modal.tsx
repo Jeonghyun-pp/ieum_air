@@ -100,7 +100,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           {/* 버튼 영역 */}
           <div className="flex flex-col gap-3">
             <Link
-              href="/auth/login"
+              href="/main"
               className="
                 w-full py-3 px-4
                 bg-purple-600 text-white
@@ -110,28 +110,10 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               "
               onClick={onClose}
             >
-              로그인
-            </Link>
-
-            <Link
-              href="/auth/signup"
-              className="
-                w-full py-3 px-4
-                bg-gray-100 text-gray-800
-                font-semibold text-center rounded-xl
-                hover:bg-gray-200 active:scale-[0.98]
-                transition-all duration-200
-              "
-              onClick={onClose}
-            >
-              회원가입
+              시작하기
             </Link>
           </div>
 
-          {/* 하단 안내 */}
-          <p className="text-xs text-gray-400 text-center mt-4">
-            가입하고 다양한 캠페인에 참여해보세요
-          </p>
         </div>
       </div>
     </>

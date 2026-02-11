@@ -70,7 +70,7 @@ export function FixedCTA({
 
     if (!isLoggedIn) {
       return (
-        <Link href="/auth/login" className="block w-full">
+        <Link href="/main" className="block w-full">
           <Button className="w-full py-6 text-lg font-bold bg-purple-600 hover:bg-purple-700">
             로그인하고 지원하기
           </Button>
@@ -161,7 +161,7 @@ export function FixedCTA({
                 </Button>
               </Link>
             ) : !isLoggedIn ? (
-              <Link href="/auth/login" className="block w-full">
+              <Link href="/main" className="block w-full">
                 <Button className="w-full py-3 font-bold bg-purple-600 hover:bg-purple-700">
                   로그인하고 지원
                 </Button>

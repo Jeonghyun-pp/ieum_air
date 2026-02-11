@@ -56,7 +56,7 @@ export function RoleProtectedLayout({
     const auth = getFirebaseAuth();
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (!firebaseUser) {
-        router.push('/auth/login');
+        router.push('/main');
         return;
       }
 
@@ -78,11 +78,11 @@ export function RoleProtectedLayout({
             profile: data.data.profile,
           });
         } else {
-          router.push('/auth/login');
+          router.push('/main');
         }
       } catch (error) {
         console.error('Auth verification error:', error);
-        router.push('/auth/login');
+        router.push('/main');
       } finally {
         setLoading(false);
       }
