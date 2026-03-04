@@ -1,70 +1,49 @@
 'use client';
 
-import { SectionHeader } from './SectionHeader';
-import { Reveal } from './Reveal';
-import {
-  SECTION_HOW_TITLE,
-  SECTION_HOW_SUBTITLE,
-  STEP_TITLE_1,
-  STEP_TITLE_2,
-  STEP_TITLE_3,
-  STEP_DESC_1,
-  STEP_DESC_2,
-  STEP_DESC_3,
-} from './placeholders';
+import { motion } from 'framer-motion';
+import { howItWorks } from './placeholders';
 
 export function HowItWorks() {
   return (
-    <section className="py-24 px-4 bg-white">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeader
-          title={SECTION_HOW_TITLE}
-          subtitle={SECTION_HOW_SUBTITLE}
-          className="mb-16"
-        />
+    <section className="py-24 px-4 bg-gray-50/50">
+      <div className="max-w-5xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {howItWorks.title}
+          </h2>
+        </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          <Reveal delay={0.1}>
-            <div className="relative group">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center font-bold text-xl shadow-lg shadow-blue-500/30 z-10 group-hover:scale-110 transition-transform duration-300">
-                1
-              </div>
-              <div className="p-8 pt-12 rounded-3xl border border-blue-200/50 bg-gradient-to-br from-blue-50/50 to-white shadow-lg shadow-blue-500/5 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-1">
-                <h3 className="text-xl font-bold text-foreground mb-3">
-                  {STEP_TITLE_1}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">{STEP_DESC_1}</p>
-              </div>
-            </div>
-          </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {howItWorks.steps.map((step, i) => (
+            <motion.div
+              key={step.number}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.4 }}
+              className="relative text-center"
+            >
+              {/* Connector line */}
+              {i < howItWorks.steps.length - 1 && (
+                <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-px bg-gradient-to-r from-purple-300 to-transparent" />
+              )}
 
-          <Reveal delay={0.2}>
-            <div className="relative group">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center font-bold text-xl shadow-lg shadow-purple-500/30 z-10 group-hover:scale-110 transition-transform duration-300">
-                2
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent-gradient text-white text-xl font-bold mb-4">
+                {step.number}
               </div>
-              <div className="p-8 pt-12 rounded-3xl border border-purple-200/50 bg-gradient-to-br from-purple-50/50 to-white shadow-lg shadow-purple-500/5 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1">
-                <h3 className="text-xl font-bold text-foreground mb-3">
-                  {STEP_TITLE_2}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">{STEP_DESC_2}</p>
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.3}>
-            <div className="relative group">
-              <div className="absolute -top-5 -left-5 w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center font-bold text-xl shadow-lg shadow-green-500/30 z-10 group-hover:scale-110 transition-transform duration-300">
-                3
-              </div>
-              <div className="p-8 pt-12 rounded-3xl border border-green-200/50 bg-gradient-to-br from-green-50/50 to-white shadow-lg shadow-green-500/5 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300 hover:-translate-y-1">
-                <h3 className="text-xl font-bold text-foreground mb-3">
-                  {STEP_TITLE_3}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">{STEP_DESC_3}</p>
-              </div>
-            </div>
-          </Reveal>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {step.title}
+              </h3>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                {step.desc}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

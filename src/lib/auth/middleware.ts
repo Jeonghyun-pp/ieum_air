@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminAuth } from '../firebase/admin';
+import { getAdminAuth, getAdminFirestore } from '../firebase/admin';
 import { UserRole } from '@/types';
 
 export interface AuthenticatedRequest extends NextRequest {
@@ -47,7 +47,7 @@ export async function verifyAuth(
     }
     
     // 사용자 문서에서 역할 가져오기
-    const db = (await import('../firebase/admin')).getAdminFirestore();
+    const db = getAdminFirestore();
     const userDoc = await db.collection('users').doc(decodedToken.uid).get();
     
     if (!userDoc.exists) {

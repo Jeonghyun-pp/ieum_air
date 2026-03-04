@@ -82,8 +82,7 @@ export async function GET(request: NextRequest) {
       },
     };
 
-    // 캐시에 저장 (10분 TTL)
-    cache.set(cacheKey, response, 10 * 60 * 1000);
+    // TODO: 캐시 구현 필요
 
     return NextResponse.json(response);
   } catch (error: any) {

@@ -48,27 +48,28 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        advertiser: {
-          DEFAULT: "hsl(var(--advertiser))",
-          foreground: "hsl(var(--advertiser-foreground))",
+        // Brand
+        "accent-purple": "hsl(var(--accent-purple))",
+        "accent-indigo": "hsl(var(--accent-indigo))",
+        // Semantic
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        danger: "hsl(var(--danger))",
+        info: "hsl(var(--info))",
+        // Country
+        country: {
+          jp: "hsl(var(--country-jp))",
+          cn: "hsl(var(--country-cn))",
+          tw: "hsl(var(--country-tw))",
+          us: "hsl(var(--country-us))",
+          sea: "hsl(var(--country-sea))",
         },
-        influencer: {
-          DEFAULT: "hsl(var(--influencer))",
-          foreground: "hsl(var(--influencer-foreground))",
-        },
-        admin: {
-          DEFAULT: "hsl(var(--admin))",
-          foreground: "hsl(var(--admin-foreground))",
-        },
-        status: {
-          recruiting: "hsl(var(--status-recruiting))",
-          inProgress: "hsl(var(--status-in-progress))",
-          completed: "hsl(var(--status-completed))",
-          pending: "hsl(var(--status-pending))",
-          selected: "hsl(var(--status-selected))",
-          delayed: "hsl(var(--status-delayed))",
-          applied: "hsl(var(--status-applied))",
-          underReview: "hsl(var(--status-under-review))",
+        // Dark surface colors (for explicit use)
+        dark: {
+          base: "#121212",
+          elevated: "#181818",
+          highlight: "#282828",
+          surface: "#1a1a2e",
         },
       },
       borderRadius: {
@@ -85,10 +86,20 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "fade-in": {
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "slide-in-right": {
+          from: { opacity: "0", transform: "translateX(20px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.4s ease-out",
+        "slide-in-right": "slide-in-right 0.3s ease-out",
       },
     },
   },

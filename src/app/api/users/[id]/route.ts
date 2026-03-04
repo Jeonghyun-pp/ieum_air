@@ -24,7 +24,7 @@ export async function GET(
 
     // 공개 정보만 반환 (인증된 사용자는 더 많은 정보)
     const response: any = {
-      id: userData.id,
+      id: (userData as any).id ?? id,
       displayName: userData.displayName,
       email: user?.uid === id ? userData.email : undefined, // 본인만 이메일 조회 가능
       role: userData.role,

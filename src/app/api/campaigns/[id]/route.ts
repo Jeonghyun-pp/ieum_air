@@ -145,7 +145,7 @@ export async function DELETE(
     }
 
     // 진행 중인 캠페인은 삭제 불가 (안전장치)
-    if (campaign.status === 'RUNNING' || campaign.status === 'IN_PROGRESS') {
+    if (campaign.status === 'RUNNING' || campaign.status === 'MATCHING') {
       return NextResponse.json(
         { success: false, error: { code: 'VALIDATION_ERROR', message: 'Cannot delete a campaign that is in progress' } },
         { status: 400 }

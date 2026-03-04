@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       message: '문의가 접수되었습니다.',
     });
   } catch (error: any) {
-    return handleApiError(error, '문의 접수에 실패했습니다.');
+    return handleApiError(error);
   }
 }
 
@@ -66,14 +66,14 @@ export async function GET(request: NextRequest) {
     const cursor = searchParams.get('cursor');
 
     const { getContacts } = await import('@/lib/firebase/firestore');
-    const contacts = await getContacts({ status, limit, cursor });
+    const contacts = await getContacts({ status: status ?? undefined, limit, cursor: cursor ?? undefined });
 
     return NextResponse.json({
       success: true,
       data: { contacts },
     });
   } catch (error: any) {
-    return handleApiError(error, '문의 내역 조회에 실패했습니다.');
+    return handleApiError(error);
   }
 }
 

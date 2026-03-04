@@ -3,6 +3,30 @@
     {
       "path": "/api/cron/daily",
       "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/collect-instagram",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/collect-ga4",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/refresh-tokens",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/scrape-airbnb",
+      "schedule": "0 5 * * 1"
+    },
+    {
+      "path": "/api/cron/aggregate-analytics",
+      "schedule": "0 6 1 * *"
+    },
+    {
+      "path": "/api/cron/generate-monthly-reports",
+      "schedule": "0 8 2 * *"
     }
   ]
 }

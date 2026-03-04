@@ -55,7 +55,7 @@ export async function PATCH(
       data: { id },
     });
   } catch (error: any) {
-    return handleApiError(error, '문의 상태 업데이트에 실패했습니다.');
+    return handleApiError(error);
   }
 }
 

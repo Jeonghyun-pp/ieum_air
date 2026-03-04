@@ -1,33 +1,49 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import { PortalTopNav } from '@/components/portal/PortalTopNav';
 import { PortalSidebar } from '@/components/portal/PortalSidebar';
-import { StatusBanner } from '@/components/portal/StatusBanner';
-import { PortalProvider, usePortal } from '@/contexts/PortalContext';
-import {
-  mockPortalData,
-  statusBannerConfigs,
-} from '@/lib/portal/mock';
+import { PortalProvider } from '@/contexts/PortalContext';
+import { Loader2 } from 'lucide-react';
 
 function PortalLayoutContent({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { status } = usePortal();
-  const bannerConfig = statusBannerConfigs[status];
+  const { firebaseUser, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && !firebaseUser) {
+      router.replace('/');
+    }
+  }, [isLoading, firebaseUser, router]);
+
+  if (isLoading) {
+    return (
+      <div className="dark min-h-screen bg-dark-base text-white flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-purple-400" />
+      </div>
+    );
+  }
+
+  if (!firebaseUser) {
+    return null;
+  }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <PortalTopNav
-        currentProperty={mockPortalData.currentProperty}
-        currentMonth={mockPortalData.currentMonth}
-      />
-      <div className="flex flex-1 overflow-hidden">
-        <PortalSidebar />
+    <div className="dark min-h-screen bg-dark-base text-white flex">
+      {/* Sidebar */}
+      <PortalSidebar />
+
+      {/* Main area */}
+      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+        <PortalTopNav />
         <main className="flex-1 overflow-y-auto">
-          <div className="p-6 space-y-6">
-            <StatusBanner config={bannerConfig} />
+          <div className="p-6 lg:p-8 max-w-7xl mx-auto w-full">
             {children}
           </div>
         </main>
@@ -42,7 +58,7 @@ export default function PortalLayout({
   children: React.ReactNode;
 }) {
   return (
-    <PortalProvider initialStatus={mockPortalData.status}>
+    <PortalProvider>
       <PortalLayoutContent>{children}</PortalLayoutContent>
     </PortalProvider>
   );

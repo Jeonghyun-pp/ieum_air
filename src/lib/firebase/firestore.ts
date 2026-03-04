@@ -8,11 +8,11 @@ import { Portfolio, PortfolioDocument } from '@/types/portfolio';
 import { Review, ReviewDocument } from '@/types/review';
 import { Contact, ContactDocument } from '@/types/contact';
 import { Survey, SurveyDocument } from '@/types/survey';
+import { Property, PropertyDocument } from '@/types/property';
 
-const db = getAdminFirestore();
-
-// Export getAdminFirestore for use in API routes
-export { getAdminFirestore };
+function db() {
+  return getAdminFirestore();
+}
 
 // Helper: Firestore Timestamp를 Date로 변환
 export function timestampToDate(ts: Timestamp | Date | undefined): Date | undefined {
@@ -29,7 +29,7 @@ export function dateToTimestamp(date: Date | undefined): Timestamp | undefined {
 
 // Users
 export async function getUserById(uid: string): Promise<User | null> {
-  const doc = await db.collection('users').doc(uid).get();
+  const doc = await db().collection('users').doc(uid).get();
   if (!doc.exists) return null;
   
   const data = doc.data() as UserDocument;
@@ -43,7 +43,7 @@ export async function getUserById(uid: string): Promise<User | null> {
 
 export async function createUser(uid: string, data: Omit<UserDocument, 'createdAt' | 'updatedAt'>): Promise<void> {
   const now = Timestamp.now();
-  await db.collection('users').doc(uid).set({
+  await db().collection('users').doc(uid).set({
     ...data,
     createdAt: now,
     updatedAt: now,
@@ -52,7 +52,7 @@ export async function createUser(uid: string, data: Omit<UserDocument, 'createdA
 
 // Campaigns
 export async function getCampaignById(campaignId: string): Promise<Campaign | null> {
-  const doc = await db.collection('campaigns').doc(campaignId).get();
+  const doc = await db().collection('campaigns').doc(campaignId).get();
   if (!doc.exists) return null;
   
   const data = doc.data() as CampaignDocument;
@@ -70,7 +70,7 @@ export async function getCampaignById(campaignId: string): Promise<Campaign | nu
 
 export async function createCampaign(data: Omit<CampaignDocument, 'createdAt' | 'updatedAt'>): Promise<string> {
   const now = Timestamp.now();
-  const ref = await db.collection('campaigns').add({
+  const ref = await db().collection('campaigns').add({
     ...data,
     createdAt: now,
     updatedAt: now,
@@ -79,17 +79,17 @@ export async function createCampaign(data: Omit<CampaignDocument, 'createdAt' | 
 }
 
 export async function updateCampaign(campaignId: string, data: Partial<CampaignDocument>): Promise<void> {
-  await db.collection('campaigns').doc(campaignId).update({
+  await db().collection('campaigns').doc(campaignId).update({
     ...data,
     updatedAt: Timestamp.now(),
   });
 }
 
 export async function deleteCampaign(campaignId: string): Promise<void> {
-  const campaignRef = db.collection('campaigns').doc(campaignId);
+  const campaignRef = db().collection('campaigns').doc(campaignId);
   
   // 서브컬렉션도 함께 삭제 (batch delete)
-  const batch = db.batch();
+  const batch = db().batch();
   
   // 캠페인 문서 삭제
   batch.delete(campaignRef);
@@ -118,7 +118,7 @@ export async function createCampaignSpec(
     createdBy: string;
   }
 ): Promise<string> {
-  const campaignRef = db.collection('campaigns').doc(campaignId);
+  const campaignRef = db().collection('campaigns').doc(campaignId);
   const campaignDoc = await campaignRef.get();
   
   if (!campaignDoc.exists) {
@@ -148,7 +148,7 @@ export async function createCampaignSpec(
 }
 
 export async function getCampaignSpec(campaignId: string, specVersionId?: string): Promise<CampaignSpecVersion | null> {
-  const campaignRef = db.collection('campaigns').doc(campaignId);
+  const campaignRef = db().collection('campaigns').doc(campaignId);
   
   if (!specVersionId) {
     const campaignDoc = await campaignRef.get();
@@ -176,7 +176,7 @@ export async function getCampaignSpec(campaignId: string, specVersionId?: string
 // Applications
 export async function createApplication(data: Omit<ApplicationDocument, 'createdAt' | 'updatedAt'>): Promise<string> {
   const now = Timestamp.now();
-  const campaignRef = db.collection('campaigns').doc(data.campaignId);
+  const campaignRef = db().collection('campaigns').doc(data.campaignId);
   const ref = await campaignRef.collection('applications').add({
     ...data,
     createdAt: now,
@@ -186,7 +186,7 @@ export async function createApplication(data: Omit<ApplicationDocument, 'created
 }
 
 export async function getCampaignApplications(campaignId: string): Promise<Application[]> {
-  const snapshot = await db.collection('campaigns').doc(campaignId)
+  const snapshot = await db().collection('campaigns').doc(campaignId)
     .collection('applications')
     .orderBy('createdAt', 'desc')
     .get();
@@ -209,7 +209,7 @@ export async function updateApplication(
   applicationId: string,
   data: Partial<ApplicationDocument>
 ): Promise<void> {
-  await db.collection('campaigns').doc(campaignId)
+  await db().collection('campaigns').doc(campaignId)
     .collection('applications').doc(applicationId)
     .update({
       ...data,
@@ -220,7 +220,7 @@ export async function updateApplication(
 // Submissions
 export async function createSubmission(data: Omit<SubmissionDocument, 'submittedAt' | 'updatedAt'>): Promise<string> {
   const now = Timestamp.now();
-  const campaignRef = db.collection('campaigns').doc(data.campaignId);
+  const campaignRef = db().collection('campaigns').doc(data.campaignId);
   const ref = await campaignRef.collection('submissions').add({
     ...data,
     submittedAt: now,
@@ -230,7 +230,7 @@ export async function createSubmission(data: Omit<SubmissionDocument, 'submitted
 }
 
 export async function getCampaignSubmissions(campaignId: string): Promise<Submission[]> {
-  const snapshot = await db.collection('campaigns').doc(campaignId)
+  const snapshot = await db().collection('campaigns').doc(campaignId)
     .collection('submissions')
     .orderBy('submittedAt', 'desc')
     .get();
@@ -253,7 +253,7 @@ export async function updateSubmission(
   submissionId: string,
   data: Partial<SubmissionDocument>
 ): Promise<void> {
-  await db.collection('campaigns').doc(campaignId)
+  await db().collection('campaigns').doc(campaignId)
     .collection('submissions').doc(submissionId)
     .update({
       ...data,
@@ -269,7 +269,7 @@ export async function createEvent(data: {
   type: string;
   payload?: any;
 }): Promise<void> {
-  await db.collection('events').add({
+  await db().collection('events').add({
     ...data,
     createdAt: Timestamp.now(),
   });
@@ -278,7 +278,7 @@ export async function createEvent(data: {
 // Portfolios
 export async function createPortfolio(data: Omit<PortfolioDocument, 'createdAt' | 'updatedAt'>): Promise<string> {
   const now = Timestamp.now();
-  const ref = await db.collection('portfolios').add({
+  const ref = await db().collection('portfolios').add({
     ...data,
     createdAt: now,
     updatedAt: now,
@@ -287,7 +287,7 @@ export async function createPortfolio(data: Omit<PortfolioDocument, 'createdAt' 
 }
 
 export async function getInfluencerPortfolios(influencerId: string, includePrivate: boolean = false): Promise<Portfolio[]> {
-  let query = db.collection('portfolios')
+  let query = db().collection('portfolios')
     .where('influencerId', '==', influencerId);
   
   if (!includePrivate) {
@@ -308,20 +308,20 @@ export async function getInfluencerPortfolios(influencerId: string, includePriva
 }
 
 export async function updatePortfolio(portfolioId: string, data: Partial<PortfolioDocument>): Promise<void> {
-  await db.collection('portfolios').doc(portfolioId).update({
+  await db().collection('portfolios').doc(portfolioId).update({
     ...data,
     updatedAt: Timestamp.now(),
   });
 }
 
 export async function deletePortfolio(portfolioId: string): Promise<void> {
-  await db.collection('portfolios').doc(portfolioId).delete();
+  await db().collection('portfolios').doc(portfolioId).delete();
 }
 
 // Reviews
 export async function createReview(data: Omit<ReviewDocument, 'createdAt' | 'updatedAt'>): Promise<string> {
   const now = Timestamp.now();
-  const ref = await db.collection('reviews').add({
+  const ref = await db().collection('reviews').add({
     ...data,
     createdAt: now,
     updatedAt: now,
@@ -330,7 +330,7 @@ export async function createReview(data: Omit<ReviewDocument, 'createdAt' | 'upd
 }
 
 export async function getCampaignReviews(campaignId: string): Promise<Review[]> {
-  const snapshot = await db.collection('reviews')
+  const snapshot = await db().collection('reviews')
     .where('campaignId', '==', campaignId)
     .orderBy('createdAt', 'desc')
     .get();
@@ -353,7 +353,7 @@ export async function getCampaignReviews(campaignId: string): Promise<Review[]> 
 }
 
 export async function getInfluencerReviews(influencerId: string): Promise<Review[]> {
-  const snapshot = await db.collection('reviews')
+  const snapshot = await db().collection('reviews')
     .where('influencerId', '==', influencerId)
     .orderBy('createdAt', 'desc')
     .get();
@@ -372,7 +372,7 @@ export async function getInfluencerReviews(influencerId: string): Promise<Review
 // Contacts
 export async function createContact(data: Omit<ContactDocument, 'createdAt'>): Promise<string> {
   const now = Timestamp.now();
-  const ref = await db.collection('contacts').add({
+  const ref = await db().collection('contacts').add({
     ...data,
     createdAt: now,
   });
@@ -386,7 +386,7 @@ export async function getContacts(options?: {
 }): Promise<Contact[]> {
   const { status, limit = 50, cursor } = options || {};
   
-  let query: any = db.collection('contacts');
+  let query: any = db().collection('contacts');
   
   // 상태 필터링
   if (status) {
@@ -398,7 +398,7 @@ export async function getContacts(options?: {
   
   // 커서 기반 페이지네이션
   if (cursor) {
-    const cursorDoc = await db.collection('contacts').doc(cursor).get();
+    const cursorDoc = await db().collection('contacts').doc(cursor).get();
     if (cursorDoc.exists) {
       query = query.startAfter(cursorDoc);
     }
@@ -420,7 +420,7 @@ export async function getContacts(options?: {
 // Surveys
 export async function createSurvey(data: Omit<SurveyDocument, 'createdAt'>): Promise<string> {
   const now = Timestamp.now();
-  const ref = await db.collection('surveys').add({
+  const ref = await db().collection('surveys').add({
     ...data,
     createdAt: now,
   });
@@ -428,14 +428,14 @@ export async function createSurvey(data: Omit<SurveyDocument, 'createdAt'>): Pro
 }
 
 export async function getSurveyByUserId(userId: string): Promise<Survey | null> {
-  const snapshot = await db.collection('surveys')
+  const snapshot = await db().collection('surveys')
     .where('userId', '==', userId)
     .orderBy('createdAt', 'desc')
     .limit(1)
     .get();
-  
+
   if (snapshot.empty) return null;
-  
+
   const doc = snapshot.docs[0];
   const data = doc.data() as SurveyDocument;
   return {
@@ -443,5 +443,122 @@ export async function getSurveyByUserId(userId: string): Promise<Survey | null> 
     ...data,
     createdAt: timestampToDate(data.createdAt) || new Date(),
   };
+}
+
+// Properties
+function propertyDocToProperty(id: string, data: PropertyDocument): Property {
+  return {
+    id,
+    ownerId: data.ownerId,
+    name: data.name,
+    region: data.region,
+    propertyType: data.propertyType,
+    listingUrl: data.listingUrl,
+    monthlyBookings: data.monthlyBookings,
+    guestNationality: data.guestNationality,
+    currentActivity: data.currentActivity,
+    painPoint: data.painPoint,
+    selectedPlan: data.selectedPlan,
+    status: data.status,
+    listingData: data.listingData ? {
+      ...data.listingData,
+      scrapedAt: timestampToDate(data.listingData.scrapedAt as any),
+    } : undefined,
+    createdAt: timestampToDate(data.createdAt) || new Date(),
+    updatedAt: timestampToDate(data.updatedAt) || new Date(),
+  };
+}
+
+export async function createProperty(data: Omit<PropertyDocument, 'createdAt' | 'updatedAt'>): Promise<string> {
+  const now = Timestamp.now();
+  const ref = await db().collection('properties').add({
+    ...data,
+    createdAt: now,
+    updatedAt: now,
+  });
+  return ref.id;
+}
+
+export async function getPropertyById(propertyId: string): Promise<Property | null> {
+  const doc = await db().collection('properties').doc(propertyId).get();
+  if (!doc.exists) return null;
+  return propertyDocToProperty(doc.id, doc.data() as PropertyDocument);
+}
+
+export async function getPropertiesByOwner(ownerId: string): Promise<Property[]> {
+  const snapshot = await db().collection('properties')
+    .where('ownerId', '==', ownerId)
+    .orderBy('createdAt', 'desc')
+    .get();
+
+  return snapshot.docs.map(doc =>
+    propertyDocToProperty(doc.id, doc.data() as PropertyDocument)
+  );
+}
+
+export async function updateProperty(propertyId: string, data: Partial<PropertyDocument>): Promise<void> {
+  await db().collection('properties').doc(propertyId).update({
+    ...data,
+    updatedAt: Timestamp.now(),
+  });
+}
+
+// Property subcollections
+export async function getPropertySubcollection<T>(
+  propertyId: string,
+  subcollection: string,
+  options?: { orderBy?: string; direction?: 'asc' | 'desc'; limit?: number }
+): Promise<(T & { id: string })[]> {
+  let query: any = db().collection('properties').doc(propertyId).collection(subcollection);
+
+  if (options?.orderBy) {
+    query = query.orderBy(options.orderBy, options.direction || 'desc');
+  }
+  if (options?.limit) {
+    query = query.limit(options.limit);
+  }
+
+  const snapshot = await query.get();
+  return snapshot.docs.map((doc: any) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+}
+
+export async function addToPropertySubcollection(
+  propertyId: string,
+  subcollection: string,
+  data: Record<string, any>
+): Promise<string> {
+  const now = Timestamp.now();
+  const ref = await db().collection('properties').doc(propertyId)
+    .collection(subcollection).add({
+      ...data,
+      createdAt: now,
+      updatedAt: now,
+    });
+  return ref.id;
+}
+
+export async function updatePropertySubdoc(
+  propertyId: string,
+  subcollection: string,
+  docId: string,
+  data: Record<string, any>
+): Promise<void> {
+  await db().collection('properties').doc(propertyId)
+    .collection(subcollection).doc(docId).update({
+      ...data,
+      updatedAt: Timestamp.now(),
+    });
+}
+
+export async function deletePropertySubdoc(
+  propertyId: string,
+  subcollection: string,
+  docId: string
+): Promise<void> {
+  await db().collection('properties').doc(propertyId)
+    .collection(subcollection).doc(docId).delete();
 }
 

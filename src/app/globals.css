@@ -4,78 +4,67 @@
 
 @layer base {
   :root {
-    /* Notion-style color system */
-    --background: 0 0% 100%;           /* Pure white #ffffff */
-    --foreground: 0 0% 7%;             /* Almost black #111 */
+    /* ── Light theme (Landing page default) ── */
+    --background: 0 0% 100%;
+    --foreground: 220 9% 8%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 7%;
+    --card-foreground: 220 9% 8%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 7%;
-
-    /* Primary: 제한적 사용, hover/active 상태용 */
-    --primary: 0 0% 7%;                /* #111 - 텍스트 색상 */
+    --popover-foreground: 220 9% 8%;
+    --primary: 263 70% 58%;              /* #8B5CF6 */
     --primary-foreground: 0 0% 100%;
-
-    /* Secondary: 매우 연한 gray */
-    --secondary: 0 0% 97%;              /* #f7f7f7 */
-    --secondary-foreground: 0 0% 7%;
-
-    /* Muted: 보조 텍스트용 중간 gray */
-    --muted: 0 0% 97%;
-    --muted-foreground: 0 0% 40%;      /* #666 */
-
-    /* Accent: hover 상태용 미세한 배경 변화 */
-    --accent: 0 0% 98%;                 /* #fafafa */
-    --accent-foreground: 0 0% 7%;
-
-    --destructive: 0 84% 60%;          /* Red - 경고/에러용 */
+    --secondary: 220 14% 96%;            /* #F3F4F6 */
+    --secondary-foreground: 220 9% 8%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;      /* #6B7280 */
+    --accent: 220 14% 96%;
+    --accent-foreground: 220 9% 8%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 263 70% 58%;
+    --radius: 0.75rem;
 
-    /* Border: 매우 연한 gray */
-    --border: 0 0% 90%;                 /* #e5e5e5 */
-    --input: 0 0% 90%;
-    --ring: 0 0% 7%;                    /* Focus ring */
-    --radius: 0.25rem;                   /* 최소 border-radius */
+    /* ── Brand accent ── */
+    --accent-purple: 263 70% 58%;        /* #8B5CF6 */
+    --accent-indigo: 239 84% 67%;        /* #6366F1 */
 
-    /* Role-specific colors - 의미가 있을 때만 사용 */
-    --advertiser: 217 91% 60%;          /* Blue #3B82F6 */
-    --advertiser-foreground: 0 0% 100%;
-    --influencer: 258 90% 58%;          /* Purple #7C3AED */
-    --influencer-foreground: 0 0% 100%;
-    --admin: 0 0% 40%;                  /* Gray #666 */
-    --admin-foreground: 0 0% 100%;
+    /* ── Semantic ── */
+    --success: 152 69% 53%;              /* #1DB954 */
+    --warning: 38 92% 50%;               /* #F59E0B */
+    --danger: 0 84% 60%;                 /* #EF4444 */
+    --info: 217 91% 60%;                 /* #3B82F6 */
 
-    /* Status colors - 의미가 있을 때만 사용 */
-    --status-recruiting: 142 71% 45%;   /* Green #10B981 */
-    --status-in-progress: 217 91% 60%;  /* Blue #3B82F6 */
-    --status-completed: 0 0% 40%;       /* Gray #666 */
-    --status-pending: 38 92% 50%;       /* Amber #F59E0B */
-    --status-selected: 142 71% 45%;     /* Green #10B981 */
-    --status-delayed: 0 84% 60%;        /* Red #EF4444 */
-    --status-applied: 217 91% 60%;      /* Blue #3B82F6 */
-    --status-under-review: 38 92% 50%;  /* Amber #F59E0B */
+    /* ── Country colors ── */
+    --country-jp: 0 72% 51%;
+    --country-cn: 48 96% 53%;
+    --country-tw: 142 71% 45%;
+    --country-us: 217 91% 60%;
+    --country-sea: 25 95% 53%;
   }
 
+  /* ── Dark theme (Portal & Admin) ── */
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --background: 0 0% 7%;               /* #121212 */
+    --foreground: 0 0% 100%;             /* #FFFFFF */
+    --card: 0 0% 9%;                     /* #181818 */
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 263 70% 58%;              /* #8B5CF6 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 16%;              /* #282828 */
+    --secondary-foreground: 0 0% 70%;    /* #B3B3B3 */
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 70%;        /* #B3B3B3 */
+    --accent: 0 0% 16%;                  /* #282828 */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 16%;                  /* #282828 */
+    --input: 0 0% 16%;
+    --ring: 263 70% 58%;
   }
 }
 
@@ -89,37 +78,65 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  /* Notion-style typography hierarchy */
+
+  /* Typography */
   h1 {
-    @apply text-3xl font-semibold tracking-tight text-foreground;
+    @apply text-3xl font-bold tracking-tight text-foreground;
     line-height: 1.2;
   }
-  
   h2 {
     @apply text-2xl font-semibold tracking-tight text-foreground;
     line-height: 1.3;
   }
-  
   h3 {
-    @apply text-xl font-medium tracking-tight text-foreground;
+    @apply text-xl font-semibold tracking-tight text-foreground;
     line-height: 1.4;
   }
-  
   h4 {
     @apply text-lg font-medium text-foreground;
     line-height: 1.5;
   }
-  
   p {
     @apply text-foreground;
     line-height: 1.6;
   }
-  
-  /* Subtle transitions */
-  * {
-    transition-duration: 100ms;
-    transition-timing-function: ease-out;
-  }
 }
 
+@layer utilities {
+  /* Gradient text utility */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #8B5CF6, #6366F1);
+  }
+
+  /* Accent gradient background */
+  .bg-accent-gradient {
+    background-image: linear-gradient(135deg, #8B5CF6, #6366F1);
+  }
+
+  /* Dark elevated surfaces */
+  .bg-dark-base { background-color: #121212; }
+  .bg-dark-elevated { background-color: #181818; }
+  .bg-dark-highlight { background-color: #282828; }
+  .bg-dark-surface { background-color: #1a1a2e; }
+
+  /* Dark text utilities */
+  .text-dark-primary { color: #FFFFFF; }
+  .text-dark-secondary { color: #B3B3B3; }
+  .text-dark-subdued { color: #6A6A6A; }
+
+  /* Spotify-style scrollbar for dark theme */
+  .dark ::-webkit-scrollbar {
+    width: 8px;
+  }
+  .dark ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background-color: #282828;
+    border-radius: 4px;
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background-color: #3E3E3E;
+  }
+}

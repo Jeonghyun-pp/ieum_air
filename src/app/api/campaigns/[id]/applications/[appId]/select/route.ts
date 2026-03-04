@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/middleware';
-import { getCampaignById, getAdminFirestore, updateCampaign, updateApplication, createEvent } from '@/lib/firebase/firestore';
+import { getCampaignById, updateCampaign, updateApplication, createEvent } from '@/lib/firebase/firestore';
+import { getAdminFirestore } from '@/lib/firebase/admin';
 import { Timestamp } from 'firebase-admin/firestore';
 
 export async function POST(
