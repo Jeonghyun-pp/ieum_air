@@ -24,8 +24,8 @@ export function Hero() {
   return (
     <section className="relative min-h-[92vh] flex items-center justify-center px-4 py-24 overflow-hidden">
       {/* Background gradient blobs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-indigo-200/20 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl" />
 
       <div className="max-w-5xl mx-auto w-full relative z-10">
         <motion.div
@@ -36,7 +36,7 @@ export function Hero() {
         >
           {/* Badge */}
           <motion.div variants={item}>
-            <span className="inline-block px-4 py-1.5 text-sm font-medium text-purple-700 bg-purple-100/70 rounded-full">
+            <span className="inline-block px-4 py-1.5 text-sm font-medium text-purple-300 bg-purple-500/15 border border-purple-500/20 rounded-full">
               {hero.badge}
             </span>
           </motion.div>
@@ -52,7 +52,7 @@ export function Hero() {
           {/* Subtitle */}
           <motion.p
             variants={item}
-            className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed whitespace-pre-line"
+            className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed whitespace-pre-line"
           >
             {hero.subtitle}
           </motion.p>
@@ -72,7 +72,7 @@ export function Hero() {
               variant="outline"
               size="lg"
               rounded="full"
-              className="px-8 py-6 text-base border-gray-300 hover:bg-gray-50"
+              className="px-8 py-6 text-base border-white/20 text-gray-300 hover:bg-white/5 hover:border-white/30"
               onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
             >
               {hero.ctaSecondary}

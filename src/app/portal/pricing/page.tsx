@@ -1,10 +1,21 @@
 'use client';
 
-import { useState } from 'react';
-import { Music, PartyPopper, Sun, Calendar, Check } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import {
+  Music,
+  PartyPopper,
+  Sun,
+  Calendar,
+  Check,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  ArrowRight,
+} from 'lucide-react';
 import { usePortal } from '@/contexts/PortalContext';
 import { usePortalData } from '@/hooks/usePortalData';
 import { PortalSkeleton } from '@/components/portal/PortalSkeleton';
+import type { PricingRecommendation, DailyPrice } from '@/types/strategy';
 
 interface PricingEvent {
   date: number;
@@ -46,7 +57,25 @@ export default function PricingCalendarPage() {
     month: currentMonth,
   });
 
+  const [recommendation, setRecommendation] = useState<PricingRecommendation | null>(null);
   const [selectedDate, setSelectedDate] = useState<number | null>(15);
+
+  // Phase 3 가격 추천 데이터 fetch
+  useEffect(() => {
+    async function fetchPricing() {
+      try {
+        const params = new URLSearchParams({ month: currentMonth });
+        const res = await fetch(`/api/portal/pricing-calendar?${params}`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          setRecommendation(json.data as PricingRecommendation);
+        }
+      } catch {
+        // ignore
+      }
+    }
+    if (activeProperty) fetchPricing();
+  }, [activeProperty, currentMonth]);
 
   if (isLoading) {
     return <PortalSkeleton />;
@@ -54,56 +83,100 @@ export default function PricingCalendarPage() {
 
   const events = data?.events || [];
   const calendarDays = generateCalendarDays(currentMonth);
-  const selectedEvent = events.find((e) => e.date === selectedDate);
 
   const getEventForDate = (date: number) => events.find((e) => e.date === date);
+  const getRecommendationForDate = (date: number): DailyPrice | undefined => {
+    if (!recommendation) return undefined;
+    const dateStr = `${currentMonth}-${String(date).padStart(2, '0')}`;
+    return recommendation.dailyPrices.find(d => d.date === dateStr);
+  };
+
+  const selectedEvent = events.find((e) => e.date === selectedDate);
+  const selectedRec = selectedDate ? getRecommendationForDate(selectedDate) : undefined;
 
   const formatMonth = (month: string) => {
     const [year, monthNum] = month.split('-');
     return `${year}년 ${parseInt(monthNum)}월`;
   };
 
+  const formatPrice = (price: number) => price.toLocaleString() + '원';
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold mb-1">가격 캘린더</h1>
-        <p className="text-[#B3B3B3]">{formatMonth(currentMonth)} — 이벤트 기반 가격 추천</p>
+        <p className="text-[#B3B3B3]">{formatMonth(currentMonth)} — 이벤트 + AI 가격 추천</p>
       </div>
+
+      {/* Summary banner */}
+      {recommendation && (
+        <div className="flex items-center gap-4 p-4 rounded-xl bg-dark-elevated">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-emerald-400" />
+            <div>
+              <div className="text-xs text-[#6A6A6A]">평균 추천가</div>
+              <div className="text-sm font-bold">{formatPrice(recommendation.summary.avgRecommended)}</div>
+            </div>
+          </div>
+          <div className="w-px h-8 bg-dark-highlight" />
+          <div>
+            <div className="text-xs text-[#6A6A6A]">예상 매출 변화</div>
+            <div className={`text-sm font-bold ${recommendation.summary.potentialRevenueLift >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+              {recommendation.summary.potentialRevenueLift >= 0 ? '+' : ''}{recommendation.summary.potentialRevenueLift}%
+            </div>
+          </div>
+          <div className="w-px h-8 bg-dark-highlight" />
+          <div>
+            <div className="text-xs text-[#6A6A6A]">조정 추천 일수</div>
+            <div className="text-sm font-bold">{recommendation.summary.adjustedDays}일</div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Calendar */}
         <div className="lg:col-span-2 p-6 rounded-2xl bg-dark-elevated">
           <div className="grid grid-cols-7 gap-1 mb-2">
             {days.map((day) => (
-              <div key={day} className="text-center text-xs text-[#6A6A6A] py-2">
-                {day}
-              </div>
+              <div key={day} className="text-center text-xs text-[#6A6A6A] py-2">{day}</div>
             ))}
           </div>
           <div className="grid grid-cols-7 gap-1">
             {calendarDays.map((date, i) => {
               if (date === null) return <div key={`empty-${i}`} />;
               const event = getEventForDate(date);
+              const rec = getRecommendationForDate(date);
               const isSelected = date === selectedDate;
               const hasEvent = event && event.type !== 'normal';
-              const adjustColor =
-                !event || event.adjustment === '유지'
-                  ? 'text-[#6A6A6A]'
-                  : 'text-emerald-400';
+
+              // 가격 변동 표시
+              const priceDiff = rec ? rec.recommendedPrice - rec.currentPrice : 0;
+              const priceColor = priceDiff > 0
+                ? 'text-emerald-400'
+                : priceDiff < 0
+                  ? 'text-red-400'
+                  : 'text-[#6A6A6A]';
 
               return (
                 <button
                   key={date}
                   onClick={() => setSelectedDate(date)}
-                  className={`relative p-2 rounded-xl text-center transition-all duration-150 min-h-[72px] flex flex-col items-center justify-center gap-1 ${
+                  className={`relative p-2 rounded-xl text-center transition-all duration-150 min-h-[72px] flex flex-col items-center justify-center gap-0.5 ${
                     isSelected
                       ? 'bg-dark-surface ring-1 ring-purple-500/50'
                       : 'hover:bg-dark-highlight'
                   }`}
                 >
                   <span className={`text-sm ${isSelected ? 'font-bold' : ''}`}>{date}</span>
-                  {event && (
-                    <span className={`text-[10px] font-bold ${adjustColor}`}>
+                  {rec && priceDiff !== 0 && (
+                    <span className={`text-[10px] font-bold ${priceColor}`}>
+                      {priceDiff > 0 ? '+' : ''}{Math.round(priceDiff / 1000)}k
+                    </span>
+                  )}
+                  {!rec && event && (
+                    <span className={`text-[10px] font-bold ${
+                      event.adjustment === '유지' ? 'text-[#6A6A6A]' : 'text-emerald-400'
+                    }`}>
                       {event.adjustment}
                     </span>
                   )}
@@ -129,12 +202,76 @@ export default function PricingCalendarPage() {
                 <span className="text-xs text-[#6A6A6A]">{config.label}</span>
               </div>
             ))}
+            {recommendation && (
+              <>
+                <div className="flex items-center gap-1.5">
+                  <TrendingUp className="w-3 h-3 text-emerald-400" />
+                  <span className="text-xs text-[#6A6A6A]">인상 추천</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <TrendingDown className="w-3 h-3 text-red-400" />
+                  <span className="text-xs text-[#6A6A6A]">인하 추천</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
         {/* Detail panel */}
         <div className="space-y-4">
-          {selectedEvent && selectedEvent.event ? (
+          {/* AI 가격 추천 상세 */}
+          {selectedRec && (
+            <div className="p-6 rounded-2xl bg-dark-elevated border border-purple-500/10">
+              <div className="text-xs text-[#6A6A6A] mb-1">
+                {parseInt(currentMonth.split('-')[1])}월 {selectedDate}일 ({days[selectedRec.dayOfWeek]})
+              </div>
+              <div className="flex items-center gap-3 mb-4">
+                <div>
+                  <div className="text-xs text-[#6A6A6A]">현재가</div>
+                  <div className="text-lg font-bold">{formatPrice(selectedRec.currentPrice)}</div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-[#6A6A6A]" />
+                <div>
+                  <div className="text-xs text-[#6A6A6A]">추천가</div>
+                  <div className={`text-lg font-bold ${
+                    selectedRec.recommendedPrice > selectedRec.currentPrice ? 'text-emerald-400' :
+                    selectedRec.recommendedPrice < selectedRec.currentPrice ? 'text-red-400' : ''
+                  }`}>
+                    {formatPrice(selectedRec.recommendedPrice)}
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-[#B3B3B3] mb-3">{selectedRec.reason}</p>
+              {selectedRec.factors.length > 0 && (
+                <div className="space-y-1.5">
+                  {selectedRec.factors.map((f, i) => (
+                    <div key={i} className="flex items-center justify-between text-xs">
+                      <span className="text-[#6A6A6A]">{f.label}</span>
+                      <span className={f.impact >= 0 ? 'text-emerald-400' : 'text-red-400'}>
+                        {f.impact >= 0 ? '+' : ''}{f.impact}%
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="mt-3 pt-3 border-t border-dark-highlight">
+                <span className={`text-xs px-2 py-0.5 rounded-full ${
+                  selectedRec.confidence === 'high' ? 'bg-emerald-500/10 text-emerald-400' :
+                  selectedRec.confidence === 'medium' ? 'bg-blue-500/10 text-blue-400' :
+                  'bg-dark-highlight text-[#6A6A6A]'
+                }`}>
+                  신뢰도: {selectedRec.confidence === 'high' ? '높음' : selectedRec.confidence === 'medium' ? '보통' : '낮음'}
+                </span>
+              </div>
+              <button className="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-accent-gradient text-white font-medium text-sm hover:opacity-90 transition-opacity mt-4">
+                <Check className="w-4 h-4" />
+                적용했어요
+              </button>
+            </div>
+          )}
+
+          {/* 이벤트 상세 (추천 데이터 없을 때) */}
+          {!selectedRec && selectedEvent && selectedEvent.event ? (
             <div className={`p-6 rounded-2xl bg-dark-elevated border ${
               selectedEvent.type === 'concert' ? 'border-pink-500/20' :
               selectedEvent.type === 'festival' ? 'border-orange-500/20' :
@@ -153,9 +290,7 @@ export default function PricingCalendarPage() {
                     <h3 className="text-xl font-bold mb-4">{selectedEvent.event}</h3>
                     <div className="p-4 rounded-xl bg-dark-highlight mb-3">
                       <div className="text-xs text-[#6A6A6A] mb-1">추천 가격 조정</div>
-                      <div className="text-2xl font-bold text-emerald-400">
-                        {selectedEvent.adjustment}
-                      </div>
+                      <div className="text-2xl font-bold text-emerald-400">{selectedEvent.adjustment}</div>
                     </div>
                     <button className="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-accent-gradient text-white font-medium text-sm hover:opacity-90 transition-opacity">
                       <Check className="w-4 h-4" />
@@ -165,7 +300,7 @@ export default function PricingCalendarPage() {
                 );
               })()}
             </div>
-          ) : (
+          ) : !selectedRec && (
             <div className="p-6 rounded-2xl bg-dark-elevated text-center">
               <Calendar className="w-8 h-8 text-[#6A6A6A] mx-auto mb-3" />
               <p className="text-sm text-[#6A6A6A]">
@@ -174,6 +309,7 @@ export default function PricingCalendarPage() {
             </div>
           )}
 
+          {/* 다가오는 이벤트 */}
           <div className="p-6 rounded-2xl bg-dark-elevated">
             <h3 className="text-sm font-semibold mb-3">다가오는 이벤트</h3>
             <div className="space-y-3">

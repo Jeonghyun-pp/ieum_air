@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, ChevronDown, Menu } from 'lucide-react';
+import { ChevronDown, Menu } from 'lucide-react';
 import { usePortal } from '@/contexts/PortalContext';
+import { NotificationBell } from './NotificationBell';
 
 export function PortalTopNav() {
   const { properties, activeProperty, setActivePropertyId, currentMonth, setCurrentMonth } = usePortal();
@@ -87,10 +88,7 @@ export function PortalTopNav() {
       </div>
 
       {/* Right: Notification */}
-      <button className="relative p-2 rounded-full hover:bg-dark-highlight transition-colors">
-        <Bell className="w-5 h-5 text-[#B3B3B3]" />
-        <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent-purple" />
-      </button>
+      <NotificationBell />
     </header>
   );
 }

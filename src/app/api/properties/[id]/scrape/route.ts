@@ -3,6 +3,7 @@ import { verifyAuth } from '@/lib/auth/middleware';
 import { getPropertyById, updateProperty } from '@/lib/firebase/firestore';
 import { scrapeAirbnbListing } from '@/lib/scraping/airbnb';
 import { Timestamp } from 'firebase-admin/firestore';
+import { inngest } from '@/inngest/client';
 
 // POST /api/properties/:id/scrape — 에어비앤비 리스팅 스크래핑 트리거
 export async function POST(
@@ -50,6 +51,24 @@ export async function POST(
         scrapedAt: Timestamp.now(),
       },
     });
+
+    // 리스팅 URL에서 ID 추출 후 Inngest 파이프라인 자동 시작
+    const listingIdMatch = property.listingUrl.match(/rooms\/(\d+)/);
+    if (listingIdMatch) {
+      const listingId = listingIdMatch[1];
+      try {
+        await inngest.send({
+          name: 'property/comp-set.build',
+          data: { propertyId: id, listingId },
+        });
+        await updateProperty(id, {
+          compSetStatus: 'building',
+        });
+      } catch (e) {
+        console.error('Failed to trigger pipeline:', e);
+        // 파이프라인 트리거 실패해도 scrape 결과는 반환
+      }
+    }
 
     return NextResponse.json({ success: true, data: scrapedData });
   } catch (error) {

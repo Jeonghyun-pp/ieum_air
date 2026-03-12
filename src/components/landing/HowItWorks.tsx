@@ -5,7 +5,7 @@ import { howItWorks } from './placeholders';
 
 export function HowItWorks() {
   return (
-    <section className="py-24 px-4 bg-gray-50/50">
+    <section className="py-24 px-4 bg-dark-elevated">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -13,7 +13,7 @@ export function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {howItWorks.title}
           </h2>
         </motion.div>
@@ -30,16 +30,16 @@ export function HowItWorks() {
             >
               {/* Connector line */}
               {i < howItWorks.steps.length - 1 && (
-                <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-px bg-gradient-to-r from-purple-300 to-transparent" />
+                <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-px bg-gradient-to-r from-purple-500/50 to-transparent" />
               )}
 
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent-gradient text-white text-xl font-bold mb-4">
                 {step.number}
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-white mb-2">
                 {step.title}
               </h3>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-gray-400 leading-relaxed">
                 {step.desc}
               </p>
             </motion.div>

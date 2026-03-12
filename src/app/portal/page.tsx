@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   CalendarDays,
@@ -8,45 +9,76 @@ import {
   ArrowRight,
   CheckCircle2,
   Circle,
+  Sparkles,
+  Zap,
 } from 'lucide-react';
 import { usePortal } from '@/contexts/PortalContext';
 import { PortalSkeleton } from '@/components/portal/PortalSkeleton';
+import { HealthScoreGauge } from '@/components/portal/HealthScoreGauge';
+import { DiagnosisCategoryBars } from '@/components/portal/DiagnosisCategoryBars';
+import type { EnhancedScorecard } from '@/types/diagnosis';
+import type { ActionItem } from '@/types/strategy';
+import type { CompetitorAlert } from '@/types/monitoring';
 
 const quickActions = [
   {
+    icon: Sparkles,
+    label: '이번 달 전략',
+    desc: 'AI 생성 전략 확인',
+    href: '/portal/plan',
+    color: 'text-purple-400',
+    bg: 'bg-purple-500/10',
+  },
+  {
     icon: CalendarDays,
     label: '가격 캘린더',
-    desc: '3건 새 추천',
+    desc: 'AI 가격 추천',
     href: '/portal/pricing',
     color: 'text-emerald-400',
     bg: 'bg-emerald-500/10',
   },
   {
-    icon: Image,
-    label: '콘텐츠',
-    desc: '2개 제작완료',
-    href: '/portal/content',
+    icon: Zap,
+    label: '최적화',
+    desc: '리스팅 진단 확인',
+    href: '/portal/optimize',
     color: 'text-pink-400',
     bg: 'bg-pink-500/10',
   },
-  {
-    icon: BarChart3,
-    label: '분석 리포트',
-    desc: '이번 달 업데이트',
-    href: '/portal/analytics',
-    color: 'text-blue-400',
-    bg: 'bg-blue-500/10',
-  },
-];
-
-const highlights = [
-  { text: '가격 조정 3건 추천 (벚꽃축제, BTS 콘서트)', color: 'bg-emerald-400' },
-  { text: '인스타 릴스 2개 제작 완료', color: 'bg-pink-400' },
-  { text: '네이버 블로그 1건 발행 예정', color: 'bg-blue-400' },
 ];
 
 export default function PortalHomePage() {
   const { activeProperty, strategySummary, reasons, todos, isLoading } = usePortal();
+  const [scorecard, setScorecard] = useState<EnhancedScorecard | null>(null);
+  const [actions, setActions] = useState<ActionItem[]>([]);
+  const [alerts, setAlerts] = useState<CompetitorAlert[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [diagRes, actionsRes, alertsRes] = await Promise.all([
+          fetch('/api/portal/diagnosis?category=scorecard'),
+          fetch('/api/portal/actions?status=pending'),
+          fetch('/api/portal/alerts'),
+        ]);
+        const diagJson = await diagRes.json();
+        if (diagJson.success && diagJson.data) {
+          setScorecard(diagJson.data as EnhancedScorecard);
+        }
+        const actionsJson = await actionsRes.json();
+        if (actionsJson.success && actionsJson.data) {
+          setActions(actionsJson.data as ActionItem[]);
+        }
+        const alertsJson = await alertsRes.json();
+        if (alertsJson.success && alertsJson.data) {
+          setAlerts((alertsJson.data as CompetitorAlert[]).filter(a => !a.read));
+        }
+      } catch {
+        // ignore
+      }
+    }
+    if (!isLoading && activeProperty) fetchData();
+  }, [isLoading, activeProperty]);
 
   if (isLoading) {
     return <PortalSkeleton />;
@@ -76,6 +108,54 @@ export default function PortalHomePage() {
         )}
       </div>
 
+      {/* Competitor Alerts */}
+      {alerts.length > 0 && (
+        <div className="space-y-2">
+          {alerts.slice(0, 3).map((alert) => (
+            <div
+              key={alert.id}
+              className={`flex items-center gap-3 p-3 rounded-xl ${
+                alert.severity === 'critical' ? 'bg-red-500/10 border border-red-500/20' :
+                alert.severity === 'warning' ? 'bg-orange-500/10 border border-orange-500/20' :
+                'bg-blue-500/10 border border-blue-500/20'
+              }`}
+            >
+              <div className={`w-2 h-2 rounded-full shrink-0 ${
+                alert.severity === 'critical' ? 'bg-red-400' :
+                alert.severity === 'warning' ? 'bg-orange-400' : 'bg-blue-400'
+              }`} />
+              <div className="flex-1 min-w-0">
+                <span className="text-sm font-medium">{alert.title}</span>
+                <p className="text-xs text-[#B3B3B3] truncate">{alert.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Health Score (Phase 2) */}
+      {scorecard && (
+        <Link
+          href="/portal/optimize"
+          className="block p-6 rounded-2xl bg-dark-elevated hover:bg-dark-highlight transition-all duration-200"
+        >
+          <div className="flex items-center gap-6">
+            <HealthScoreGauge
+              score={scorecard.overallScore}
+              grade={scorecard.overallGrade}
+              size="md"
+              label="종합 경쟁력"
+            />
+            <div className="flex-1 min-w-0">
+              <div className="text-sm text-[#B3B3B3] mb-3">
+                {scorecard.totalInCompSet}개 경쟁 숙소 중 <span className="text-white font-semibold">{scorecard.rank}위</span>
+              </div>
+              <DiagnosisCategoryBars categories={scorecard.categories} />
+            </div>
+          </div>
+        </Link>
+      )}
+
       {/* Quick actions */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {quickActions.map((action) => {
@@ -99,21 +179,43 @@ export default function PortalHomePage() {
         })}
       </div>
 
-      {/* Highlights */}
-      <div>
-        <h2 className="text-lg font-semibold mb-4">이번 달 하이라이트</h2>
-        <div className="space-y-3">
-          {highlights.map((item) => (
-            <div
-              key={item.text}
-              className="flex items-center gap-3 p-4 rounded-xl bg-dark-elevated"
-            >
-              <div className={`w-2 h-2 rounded-full ${item.color} shrink-0`} />
-              <span className="text-sm text-[#B3B3B3]">{item.text}</span>
-            </div>
-          ))}
+      {/* Action Items */}
+      {actions.length > 0 && (
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">추천 액션</h2>
+            <span className="text-xs text-[#6A6A6A]">{actions.length}개</span>
+          </div>
+          <div className="space-y-3">
+            {actions.slice(0, 5).map((action) => (
+              <div
+                key={action.id}
+                className="flex items-center gap-3 p-4 rounded-xl bg-dark-elevated"
+              >
+                <div className={`w-2 h-2 rounded-full shrink-0 ${
+                  action.priority === 'critical' ? 'bg-red-400' :
+                  action.priority === 'high' ? 'bg-orange-400' :
+                  action.priority === 'medium' ? 'bg-blue-400' :
+                  'bg-[#6A6A6A]'
+                }`} />
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm text-white">{action.title}</span>
+                  <p className="text-xs text-[#6A6A6A] truncate">{action.description}</p>
+                </div>
+                <span className={`text-[10px] px-2 py-0.5 rounded-full shrink-0 ${
+                  action.priority === 'critical' ? 'bg-red-500/10 text-red-400' :
+                  action.priority === 'high' ? 'bg-orange-500/10 text-orange-400' :
+                  'bg-dark-highlight text-[#6A6A6A]'
+                }`}>
+                  {action.priority === 'critical' ? '긴급' :
+                   action.priority === 'high' ? '높음' :
+                   action.priority === 'medium' ? '보통' : '낮음'}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Todo list */}
       <div>

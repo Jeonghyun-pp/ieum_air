@@ -16,6 +16,8 @@ export interface AirbnbListingData {
   scrapedAt?: Date;
 }
 
+export type CompSetStatus = 'building' | 'scraping_own' | 'scraping' | 'analyzing' | 'ready' | 'failed';
+
 export interface Property {
   id: string;
   ownerId: string;
@@ -30,6 +32,11 @@ export interface Property {
   selectedPlan: string;
   status: PropertyStatus;
   listingData?: AirbnbListingData;
+  // Pipeline fields
+  compSetStatus?: CompSetStatus;
+  diagnosisStatus?: 'pending' | 'running' | 'ready' | 'failed';
+  healthScore?: number;
+  healthGrade?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -55,6 +62,11 @@ export interface PropertyDocument {
     reviewCount?: number;
     scrapedAt?: Timestamp;
   };
+  // Pipeline fields
+  compSetStatus?: CompSetStatus;
+  diagnosisStatus?: 'pending' | 'running' | 'ready' | 'failed';
+  healthScore?: number;
+  healthGrade?: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }

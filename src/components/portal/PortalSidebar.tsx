@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils/cn';
 import {
   Home,
   Lightbulb,
+  Zap,
   CalendarDays,
   Image,
   BarChart3,
@@ -24,6 +25,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: '홈', href: '/portal', icon: Home },
   { label: '전략', href: '/portal/plan', icon: Lightbulb },
+  { label: '최적화', href: '/portal/optimize', icon: Zap },
   { label: '가격 캘린더', href: '/portal/pricing', icon: CalendarDays },
   { label: '콘텐츠', href: '/portal/content', icon: Image },
   { label: '분석', href: '/portal/analytics', icon: BarChart3 },
