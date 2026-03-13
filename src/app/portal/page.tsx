@@ -56,10 +56,17 @@ export default function PortalHomePage() {
   useEffect(() => {
     async function fetchData() {
       try {
+        const { getFirebaseAuth } = await import('@/lib/firebase/auth');
+        const auth = getFirebaseAuth();
+        const fbUser = auth.currentUser;
+        if (!fbUser) return;
+        const token = await fbUser.getIdToken();
+        const headers = { 'Authorization': `Bearer ${token}` };
+
         const [diagRes, actionsRes, alertsRes] = await Promise.all([
-          fetch('/api/portal/diagnosis?category=scorecard'),
-          fetch('/api/portal/actions?status=pending'),
-          fetch('/api/portal/alerts'),
+          fetch('/api/portal/diagnosis?category=scorecard', { headers }),
+          fetch('/api/portal/actions?status=pending', { headers }),
+          fetch('/api/portal/alerts', { headers }),
         ]);
         const diagJson = await diagRes.json();
         if (diagJson.success && diagJson.data) {

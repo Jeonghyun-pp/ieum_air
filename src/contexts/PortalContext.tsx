@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import type { PlanStatus, PortalData, Todo, Plan } from '@/lib/portal/types';
 import type { Property } from '@/types/property';
@@ -59,6 +59,9 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Track fetch to prevent duplicate calls
+  const fetchingRef = useRef(false);
+
   const activeProperty = properties.find(p => p.id === activePropertyId) || properties[0] || null;
 
   // Fetch properties list
@@ -73,18 +76,19 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       const json = await res.json();
       if (json.success && json.data) {
         setProperties(json.data);
-        if (!activePropertyId && json.data.length > 0) {
-          setActivePropertyId(json.data[0].id);
-        }
+        setActivePropertyId((prev) => {
+          if (!prev && json.data.length > 0) return json.data[0].id;
+          return prev;
+        });
       }
     } catch (err) {
       console.error('Failed to fetch properties:', err);
     }
-  }, [firebaseUser, activePropertyId]);
+  }, [firebaseUser]);
 
   // Fetch dashboard data
   const refreshDashboard = useCallback(async () => {
-    if (!firebaseUser) return;
+    if (!firebaseUser || !activePropertyId) return;
 
     setIsLoading(true);
     setError(null);
@@ -92,7 +96,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     try {
       const token = await firebaseUser.getIdToken();
       const params = new URLSearchParams({ month: currentMonth });
-      if (activePropertyId) params.set('propertyId', activePropertyId);
+      params.set('propertyId', activePropertyId);
 
       const res = await fetch(`/api/portal/dashboard?${params}`, {
         headers: { 'Authorization': `Bearer ${token}` },
@@ -149,7 +153,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     updatePlanStatus(newStatus);
   }, [updatePlanStatus]);
 
-  // Initial fetch
+  // Initial fetch: load properties when auth is ready
   useEffect(() => {
     if (!authLoading && firebaseUser) {
       fetchProperties();
@@ -160,12 +164,12 @@ export function PortalProvider({ children }: { children: ReactNode }) {
 
   // Refresh dashboard when property or month changes
   useEffect(() => {
-    if (activePropertyId) {
+    if (activePropertyId && firebaseUser) {
       refreshDashboard();
-    } else if (properties.length === 0 && !authLoading) {
+    } else if (!authLoading && !activePropertyId) {
       setIsLoading(false);
     }
-  }, [activePropertyId, currentMonth, refreshDashboard, properties.length, authLoading]);
+  }, [activePropertyId, currentMonth, refreshDashboard, authLoading, firebaseUser]);
 
   return (
     <PortalContext.Provider
