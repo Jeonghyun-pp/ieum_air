@@ -35,7 +35,7 @@ interface PortalContextType {
 const PortalContext = createContext<PortalContextType | undefined>(undefined);
 
 export function PortalProvider({ children }: { children: ReactNode }) {
-  const { firebaseUser, isLoading: authLoading } = useAuth();
+  const { user, firebaseUser, isLoading: authLoading } = useAuth();
 
   // Property state
   const [properties, setProperties] = useState<Property[]>([]);
@@ -153,14 +153,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     updatePlanStatus(newStatus);
   }, [updatePlanStatus]);
 
-  // Initial fetch: load properties when auth is ready
+  // Initial fetch: load properties when auth is fully ready (user doc exists)
   useEffect(() => {
-    if (!authLoading && firebaseUser) {
+    if (!authLoading && user && firebaseUser) {
       fetchProperties();
     } else if (!authLoading && !firebaseUser) {
       setIsLoading(false);
     }
-  }, [authLoading, firebaseUser, fetchProperties]);
+  }, [authLoading, user, firebaseUser, fetchProperties]);
 
   // Refresh dashboard when property or month changes
   useEffect(() => {

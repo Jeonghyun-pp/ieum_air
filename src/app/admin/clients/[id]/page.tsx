@@ -33,7 +33,7 @@ const statusColorMap: Record<string, string> = {
   connected: 'text-emerald-400',
   active: 'text-emerald-400',
   pending: 'text-orange-400',
-  disconnected: 'text-[#6A6A6A]',
+  disconnected: 'text-muted-foreground',
   error: 'text-red-400',
 };
 
@@ -88,13 +88,13 @@ export default function ClientDetailPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <Link href="/admin/clients" className="flex items-center gap-2 text-sm text-[#B3B3B3] hover:text-white transition-colors">
+        <Link href="/admin/clients" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-4 h-4" />
           고객 목록으로
         </Link>
         <div className="p-12 rounded-2xl bg-dark-elevated text-center flex items-center justify-center gap-3">
-          <Loader2 className="w-5 h-5 animate-spin text-[#6A6A6A]" />
-          <p className="text-sm text-[#6A6A6A]">로딩 중...</p>
+          <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">로딩 중...</p>
         </div>
       </div>
     );
@@ -103,7 +103,7 @@ export default function ClientDetailPage() {
   if (!data) {
     return (
       <div className="space-y-6">
-        <Link href="/admin/clients" className="flex items-center gap-2 text-sm text-[#B3B3B3] hover:text-white transition-colors">
+        <Link href="/admin/clients" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-4 h-4" />
           고객 목록으로
         </Link>
@@ -122,7 +122,7 @@ export default function ClientDetailPage() {
 
   return (
     <div className="space-y-6">
-      <Link href="/admin/clients" className="flex items-center gap-2 text-sm text-[#B3B3B3] hover:text-white transition-colors">
+      <Link href="/admin/clients" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
         <ArrowLeft className="w-4 h-4" />
         고객 목록으로
       </Link>
@@ -131,7 +131,7 @@ export default function ClientDetailPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{data.name}</h1>
-          <div className="flex items-center gap-4 mt-2 text-sm text-[#6A6A6A]">
+          <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
             <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{data.region || '-'}</span>
             <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{formatDate(data.createdAt)}</span>
             <span className="flex items-center gap-1"><CreditCard className="w-3.5 h-3.5" />{data.propertyType || '-'}</span>
@@ -155,7 +155,7 @@ export default function ClientDetailPage() {
             { label: '어려운 점', value: data.painPoint || '-' },
           ].map((item) => (
             <div key={item.label} className="p-4 rounded-xl bg-dark-highlight">
-              <div className="text-xs text-[#6A6A6A] mb-1">{item.label}</div>
+              <div className="text-xs text-muted-foreground mb-1">{item.label}</div>
               <div className="text-sm font-medium">{item.value}</div>
             </div>
           ))}
@@ -168,9 +168,9 @@ export default function ClientDetailPage() {
         {integrations.length > 0 ? (
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
             {integrations.map((integration) => {
-              const mapped = platformIconMap[integration.platform] || { icon: Globe, color: 'text-[#6A6A6A]', bg: 'bg-[#6A6A6A]/10' };
+              const mapped = platformIconMap[integration.platform] || { icon: Globe, color: 'text-muted-foreground', bg: 'bg-[#6A6A6A]/10' };
               const Icon = mapped.icon;
-              const statusColor = statusColorMap[integration.status] || 'text-[#6A6A6A]';
+              const statusColor = statusColorMap[integration.status] || 'text-muted-foreground';
               return (
                 <div key={integration.platform} className="p-4 rounded-xl bg-dark-highlight flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-lg ${mapped.bg} flex items-center justify-center shrink-0`}>
@@ -185,7 +185,7 @@ export default function ClientDetailPage() {
             })}
           </div>
         ) : (
-          <p className="text-sm text-[#6A6A6A]">연동된 서비스가 없습니다.</p>
+          <p className="text-sm text-muted-foreground">연동된 서비스가 없습니다.</p>
         )}
       </div>
 
@@ -194,7 +194,7 @@ export default function ClientDetailPage() {
         <div className="p-6 rounded-2xl bg-dark-elevated">
           <h2 className="text-sm font-semibold mb-4">작업 타임라인</h2>
           {activityLoading ? (
-            <div className="flex items-center gap-2 text-sm text-[#6A6A6A]">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" />
               로딩 중...
             </div>
@@ -209,27 +209,27 @@ export default function ClientDetailPage() {
                     <div className="text-sm">
                       {item.action}{item.target ? ` - ${item.target}` : ''}{item.detail ? `: ${item.detail}` : ''}
                     </div>
-                    <div className="text-xs text-[#6A6A6A]">{formatDate(item.createdAt)}</div>
+                    <div className="text-xs text-muted-foreground">{formatDate(item.createdAt)}</div>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-[#6A6A6A]">활동 내역이 없습니다.</p>
+            <p className="text-sm text-muted-foreground">활동 내역이 없습니다.</p>
           )}
         </div>
 
         {/* Memo */}
         <div className="p-6 rounded-2xl bg-dark-elevated">
           <div className="flex items-center gap-2 mb-4">
-            <MessageSquare className="w-4 h-4 text-[#6A6A6A]" />
+            <MessageSquare className="w-4 h-4 text-muted-foreground" />
             <h2 className="text-sm font-semibold">내부 메모</h2>
           </div>
           <textarea
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
             rows={8}
-            className="w-full p-4 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-[#6A6A6A] focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none"
+            className="w-full p-4 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none"
             placeholder="메모를 입력하세요..."
           />
           <button

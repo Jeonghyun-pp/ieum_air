@@ -55,8 +55,8 @@ export default function OptimizePage() {
       <div className="space-y-4">
         <h1 className="text-2xl font-bold">최적화</h1>
         <div className="text-center py-16 rounded-2xl bg-dark-elevated">
-          <p className="text-[#B3B3B3] text-lg">진단 데이터가 아직 없습니다</p>
-          <p className="text-[#6A6A6A] text-sm mt-2">
+          <p className="text-muted-foreground text-lg">진단 데이터가 아직 없습니다</p>
+          <p className="text-muted-foreground text-sm mt-2">
             비교군 구성이 완료되면 자동으로 리스팅 진단이 실행됩니다.
           </p>
         </div>
@@ -79,7 +79,7 @@ export default function OptimizePage() {
             className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
               activeTab === tab.key
                 ? 'bg-accent-purple text-white'
-                : 'text-[#6A6A6A] hover:text-[#B3B3B3]'
+                : 'text-muted-foreground hover:text-muted-foreground'
             }`}
           >
             {tab.label}
@@ -98,10 +98,10 @@ export default function OptimizePage() {
                 size="lg"
                 label="종합 경쟁력"
               />
-              <div className="flex-1 text-sm text-[#B3B3B3]">
+              <div className="flex-1 text-sm text-muted-foreground">
                 <p>
                   {enhancedScorecard.totalInCompSet}개 경쟁 숙소 중{' '}
-                  <span className="text-white font-semibold">{enhancedScorecard.rank}위</span>
+                  <span className="text-foreground font-semibold">{enhancedScorecard.rank}위</span>
                 </p>
               </div>
             </div>

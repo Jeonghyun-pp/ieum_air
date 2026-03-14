@@ -18,10 +18,10 @@ export function Pricing() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             {pricing.title}
           </h2>
-          <p className="text-lg text-gray-400">{pricing.subtitle}</p>
+          <p className="text-lg text-muted-foreground">{pricing.subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -34,8 +34,8 @@ export function Pricing() {
               transition={{ delay: i * 0.1, duration: 0.4 }}
               className={`relative rounded-2xl p-8 transition-all duration-300 ${
                 plan.highlighted
-                  ? 'bg-dark-highlight border-2 border-purple-500 shadow-xl shadow-purple-500/10 scale-[1.02]'
-                  : 'bg-dark-elevated border border-white/5 hover:shadow-lg hover:-translate-y-1 hover:border-white/10'
+                  ? 'bg-gray-50 border-2 border-purple-500 shadow-xl shadow-purple-300/20 scale-[1.02]'
+                  : 'bg-white border border-gray-200 hover:shadow-lg hover:-translate-y-1 hover:border-gray-300'
               }`}
             >
               {plan.highlighted && (
@@ -47,13 +47,13 @@ export function Pricing() {
               )}
 
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-white mb-1">{plan.name}</h3>
-                <p className="text-sm text-gray-400">{plan.description}</p>
+                <h3 className="text-xl font-bold text-foreground mb-1">{plan.name}</h3>
+                <p className="text-sm text-muted-foreground">{plan.description}</p>
               </div>
 
               <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-4xl font-bold text-white">{plan.price}</span>
-                <span className="text-gray-400">{plan.unit}</span>
+                <span className="text-4xl font-bold text-foreground">{plan.price}</span>
+                <span className="text-muted-foreground">{plan.unit}</span>
               </div>
 
               <Button
@@ -69,9 +69,9 @@ export function Pricing() {
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
                     <Check className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
-                      plan.highlighted ? 'text-purple-400' : 'text-gray-500'
+                      plan.highlighted ? 'text-purple-400' : 'text-muted-foreground'
                     }`} />
-                    <span className="text-sm text-gray-300">{feature}</span>
+                    <span className="text-sm text-foreground/80">{feature}</span>
                   </li>
                 ))}
               </ul>

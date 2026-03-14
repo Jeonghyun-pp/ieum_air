@@ -37,7 +37,7 @@ export function PortalSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden md:flex flex-col w-60 bg-black p-4 shrink-0">
+    <aside className="hidden md:flex flex-col w-60 bg-white border-r border-border p-4 shrink-0">
       {/* Logo */}
       <Link href="/portal" className="px-3 py-4 mb-4">
         <span className="text-lg font-bold text-gradient">StayTrend</span>
@@ -58,8 +58,8 @@ export function PortalSidebar() {
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors duration-200',
                 isActive
-                  ? 'text-white bg-dark-highlight'
-                  : 'text-[#B3B3B3] hover:text-white'
+                  ? 'text-foreground bg-dark-highlight font-semibold'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-dark-highlight/50'
               )}
             >
               <Icon className="w-5 h-5 shrink-0" />
@@ -70,17 +70,17 @@ export function PortalSidebar() {
       </nav>
 
       {/* Bottom */}
-      <div className="border-t border-dark-highlight pt-4 mt-4">
+      <div className="border-t border-border pt-4 mt-4">
         <Link
           href="/portal/settings"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-[#B3B3B3] hover:text-white transition-colors"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-muted-foreground hover:text-foreground hover:bg-dark-highlight/50 transition-colors"
         >
           <Settings className="w-5 h-5" />
           <span>설정</span>
         </Link>
         <Link
           href="/"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-[#B3B3B3] hover:text-white transition-colors"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-muted-foreground hover:text-foreground hover:bg-dark-highlight/50 transition-colors"
         >
           <ExternalLink className="w-5 h-5" />
           <span>홈페이지</span>

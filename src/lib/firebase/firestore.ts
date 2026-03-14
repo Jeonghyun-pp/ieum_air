@@ -488,12 +488,18 @@ export async function getPropertyById(propertyId: string): Promise<Property | nu
 export async function getPropertiesByOwner(ownerId: string): Promise<Property[]> {
   const snapshot = await db().collection('properties')
     .where('ownerId', '==', ownerId)
-    .orderBy('createdAt', 'desc')
     .get();
 
-  return snapshot.docs.map(doc =>
+  const properties = snapshot.docs.map(doc =>
     propertyDocToProperty(doc.id, doc.data() as PropertyDocument)
   );
+
+  // Sort by createdAt desc in memory (avoids composite index requirement)
+  return properties.sort((a, b) => {
+    const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    return bTime - aTime;
+  });
 }
 
 export async function updateProperty(propertyId: string, data: Partial<PropertyDocument>): Promise<void> {
@@ -509,20 +515,25 @@ export async function getPropertySubcollection<T>(
   subcollection: string,
   options?: { orderBy?: string; direction?: 'asc' | 'desc'; limit?: number }
 ): Promise<(T & { id: string })[]> {
-  let query: any = db().collection('properties').doc(propertyId).collection(subcollection);
+  try {
+    let query: any = db().collection('properties').doc(propertyId).collection(subcollection);
 
-  if (options?.orderBy) {
-    query = query.orderBy(options.orderBy, options.direction || 'desc');
-  }
-  if (options?.limit) {
-    query = query.limit(options.limit);
-  }
+    if (options?.orderBy) {
+      query = query.orderBy(options.orderBy, options.direction || 'desc');
+    }
+    if (options?.limit) {
+      query = query.limit(options.limit);
+    }
 
-  const snapshot = await query.get();
-  return snapshot.docs.map((doc: any) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+    const snapshot = await query.get();
+    return snapshot.docs.map((doc: any) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  } catch (error) {
+    console.error(`getPropertySubcollection(${subcollection}) error:`, error);
+    return [];
+  }
 }
 
 export async function addToPropertySubcollection(

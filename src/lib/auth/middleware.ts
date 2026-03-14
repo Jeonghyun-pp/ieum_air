@@ -55,14 +55,11 @@ export async function verifyAuth(
     }
 
     const userData = userDoc.data();
-    if (!userData?.role) {
-      return null;
-    }
 
     return {
       uid: decodedToken.uid,
       email: decodedToken.email,
-      role: userData.role as UserRole,
+      role: (userData?.role as UserRole) || 'advertiser',
     };
   } catch (error) {
     console.error('Auth verification error:', error);

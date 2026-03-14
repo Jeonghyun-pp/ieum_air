@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { usePortal } from '@/contexts/PortalContext';
 import { PortalTopNav } from '@/components/portal/PortalTopNav';
 import { PortalSidebar } from '@/components/portal/PortalSidebar';
 import { PortalProvider } from '@/contexts/PortalContext';
@@ -14,6 +15,7 @@ function PortalLayoutContent({
   children: React.ReactNode;
 }) {
   const { firebaseUser, isLoading } = useAuth();
+  const { properties, isLoading: portalLoading } = usePortal();
   const router = useRouter();
 
   useEffect(() => {
@@ -22,10 +24,17 @@ function PortalLayoutContent({
     }
   }, [isLoading, firebaseUser, router]);
 
+  // Properties 로드 완료 후 숙소가 없으면 온보딩으로 리디렉트
+  useEffect(() => {
+    if (!isLoading && firebaseUser && !portalLoading && properties.length === 0) {
+      router.replace('/onboarding');
+    }
+  }, [isLoading, firebaseUser, portalLoading, properties, router]);
+
   if (isLoading) {
     return (
-      <div className="dark min-h-screen bg-dark-base text-white flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-purple-400" />
+      <div className="dark min-h-screen bg-dark-base text-foreground flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
       </div>
     );
   }
@@ -35,7 +44,7 @@ function PortalLayoutContent({
   }
 
   return (
-    <div className="dark min-h-screen bg-dark-base text-white flex">
+    <div className="dark min-h-screen bg-dark-base text-foreground flex">
       {/* Sidebar */}
       <PortalSidebar />
 

@@ -73,14 +73,14 @@ export default function ResultsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold mb-1">성과</h1>
-        <p className="text-[#B3B3B3]">{formatMonth(currentMonth)} 성과 리포트</p>
+        <p className="text-muted-foreground">{formatMonth(currentMonth)} 성과 리포트</p>
       </div>
 
       {/* Performance Trend */}
       {trend.length >= 2 && (
         <div className="p-6 rounded-2xl bg-dark-elevated">
           <div className="flex items-center gap-2 mb-4">
-            <BarChart3 className="w-4 h-4 text-purple-400" />
+            <BarChart3 className="w-4 h-4 text-purple-500" />
             <h3 className="text-sm font-semibold">점수 추이</h3>
           </div>
           <div className="flex items-end gap-2 h-40">
@@ -88,21 +88,21 @@ export default function ResultsPage() {
               const height = Math.max(8, (snap.healthScore / 100) * 100);
               return (
                 <div key={snap.month} className="flex-1 flex flex-col items-center gap-1">
-                  <span className="text-xs font-bold text-white">{snap.healthScore}</span>
+                  <span className="text-xs font-bold text-foreground">{snap.healthScore}</span>
                   <div
                     className="w-full rounded-t-lg bg-gradient-to-t from-purple-600 to-purple-400 transition-all duration-500"
                     style={{ height: `${height}%` }}
                   />
-                  <span className="text-[10px] text-[#6A6A6A]">{formatShortMonth(snap.month)}</span>
+                  <span className="text-[10px] text-muted-foreground">{formatShortMonth(snap.month)}</span>
                 </div>
               );
             })}
           </div>
           {trend.length > 0 && (
-            <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-dark-highlight">
+            <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-border">
               {Object.entries(trend[trend.length - 1].categoryScores).slice(0, 6).map(([key, score]) => (
                 <div key={key} className="text-center">
-                  <div className="text-xs text-[#6A6A6A]">{key}</div>
+                  <div className="text-xs text-muted-foreground">{key}</div>
                   <div className="text-sm font-bold">{score}</div>
                 </div>
               ))}
@@ -121,13 +121,13 @@ export default function ResultsPage() {
             { label: '완료 액션', value: `${trend[trend.length - 1].actionsCompleted}개`, sub: '' },
           ].map((stat) => (
             <div key={stat.label} className="p-4 rounded-xl bg-dark-elevated text-center">
-              <div className="text-xs text-[#6A6A6A] mb-1">{stat.label}</div>
+              <div className="text-xs text-muted-foreground mb-1">{stat.label}</div>
               <div className="text-xl font-bold">{stat.value}</div>
               {stat.sub && (
                 <span className={`text-xs font-bold ${
-                  stat.sub === 'A' ? 'text-emerald-400' :
-                  stat.sub === 'B' ? 'text-blue-400' :
-                  stat.sub === 'C' ? 'text-yellow-400' : 'text-red-400'
+                  stat.sub === 'A' ? 'text-emerald-500' :
+                  stat.sub === 'B' ? 'text-blue-500' :
+                  stat.sub === 'C' ? 'text-yellow-500' : 'text-red-500'
                 }`}>{stat.sub}</span>
               )}
             </div>
@@ -138,9 +138,9 @@ export default function ResultsPage() {
       {/* Report content */}
       {!isAccessible && results.highlights.length === 0 ? (
         <div className="p-12 rounded-2xl bg-dark-elevated text-center">
-          <FileText className="w-12 h-12 text-[#6A6A6A] mx-auto mb-4" />
+          <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
           <p className="text-lg font-medium mb-2">리포트가 아직 준비되지 않았습니다</p>
-          <p className="text-sm text-[#6A6A6A]">집행이 완료되면 성과를 확인할 수 있습니다.</p>
+          <p className="text-sm text-muted-foreground">집행이 완료되면 성과를 확인할 수 있습니다.</p>
         </div>
       ) : (
         <>
@@ -151,7 +151,7 @@ export default function ResultsPage() {
                 {results.highlights.map((highlight, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
-                    <span className="text-sm text-[#B3B3B3]">{highlight}</span>
+                    <span className="text-sm text-muted-foreground">{highlight}</span>
                   </div>
                 ))}
               </div>
@@ -165,10 +165,10 @@ export default function ResultsPage() {
                 const isNegative = metric.delta.startsWith('-') || metric.delta.includes('감소') || metric.delta.includes('하락');
                 return (
                   <div key={i} className="p-6 rounded-2xl bg-dark-elevated">
-                    <div className="text-xs text-[#6A6A6A] uppercase tracking-wider mb-2">{metric.label}</div>
+                    <div className="text-xs text-muted-foreground uppercase tracking-wider mb-2">{metric.label}</div>
                     <div className="text-3xl font-bold mb-2">{metric.value}</div>
                     <div className={`flex items-center gap-1 text-sm ${
-                      isPositive ? 'text-emerald-400' : isNegative ? 'text-red-400' : 'text-[#6A6A6A]'
+                      isPositive ? 'text-emerald-500' : isNegative ? 'text-red-500' : 'text-muted-foreground'
                     }`}>
                       {isPositive ? <TrendingUp className="w-4 h-4" /> :
                        isNegative ? <TrendingDown className="w-4 h-4" /> :
@@ -185,7 +185,7 @@ export default function ResultsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-semibold mb-1">리포트 다운로드</h3>
-                <p className="text-sm text-[#B3B3B3]">상세 성과 리포트를 PDF로 다운로드합니다.</p>
+                <p className="text-sm text-muted-foreground">상세 성과 리포트를 PDF로 다운로드합니다.</p>
               </div>
               <Button variant="gradient" className="flex items-center gap-2">
                 <Download className="w-4 h-4" />

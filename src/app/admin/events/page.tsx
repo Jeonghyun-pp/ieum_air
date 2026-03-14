@@ -130,8 +130,8 @@ export default function AdminEventsPage() {
       {/* Loading State */}
       {isLoading && (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-6 h-6 animate-spin text-[#6A6A6A]" />
-          <span className="ml-2 text-sm text-[#6A6A6A]">이벤트를 불러오는 중...</span>
+          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+          <span className="ml-2 text-sm text-muted-foreground">이벤트를 불러오는 중...</span>
         </div>
       )}
 
@@ -145,7 +145,7 @@ export default function AdminEventsPage() {
         <div className="rounded-2xl bg-dark-elevated p-4">
           <div className="grid grid-cols-7 gap-1 mb-2">
             {['일', '월', '화', '수', '목', '금', '토'].map((d) => (
-              <div key={d} className="text-center text-xs text-[#6A6A6A] py-2 font-medium">{d}</div>
+              <div key={d} className="text-center text-xs text-muted-foreground py-2 font-medium">{d}</div>
             ))}
           </div>
           <div className="grid grid-cols-7 gap-1">
@@ -161,7 +161,7 @@ export default function AdminEventsPage() {
                     dayEvents.length > 0 ? 'bg-dark-highlight' : 'hover:bg-dark-highlight/50'
                   }`}
                 >
-                  <div className="text-[#B3B3B3] mb-1">{day}</div>
+                  <div className="text-muted-foreground mb-1">{day}</div>
                   {dayEvents.slice(0, 2).map((evt) => {
                     const Icon = typeIcons[evt.type] || MapPin;
                     return (
@@ -172,7 +172,7 @@ export default function AdminEventsPage() {
                     );
                   })}
                   {dayEvents.length > 2 && (
-                    <div className="text-[10px] text-[#6A6A6A]">+{dayEvents.length - 2}개</div>
+                    <div className="text-[10px] text-muted-foreground">+{dayEvents.length - 2}개</div>
                   )}
                 </div>
               );
@@ -186,7 +186,7 @@ export default function AdminEventsPage() {
         <div className="p-6 rounded-2xl bg-dark-elevated">
           <h2 className="text-sm font-semibold mb-4">이벤트 목록</h2>
           {events && events.length === 0 && (
-            <div className="text-center py-8 text-sm text-[#6A6A6A]">이 달에 등록된 이벤트가 없습니다.</div>
+            <div className="text-center py-8 text-sm text-muted-foreground">이 달에 등록된 이벤트가 없습니다.</div>
           )}
           <div className="space-y-2">
             {events?.map((evt) => {
@@ -198,7 +198,7 @@ export default function AdminEventsPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium">{evt.name}</div>
-                    <div className="text-xs text-[#6A6A6A]">{evt.date} · {evt.region}</div>
+                    <div className="text-xs text-muted-foreground">{evt.date} · {evt.region}</div>
                   </div>
                   <span className={`text-xs px-2 py-0.5 rounded-full ${typeColors[evt.type]}`}>
                     {typeLabels[evt.type]}
@@ -208,7 +208,7 @@ export default function AdminEventsPage() {
                   </span>
                   <button
                     onClick={() => handleEdit(evt)}
-                    className="text-xs px-3 py-1 rounded-full font-medium transition-colors bg-dark-highlight text-[#B3B3B3] hover:text-white"
+                    className="text-xs px-3 py-1 rounded-full font-medium transition-colors bg-dark-highlight text-muted-foreground hover:text-foreground"
                   >
                     수정
                   </button>

@@ -29,11 +29,11 @@ export function PortalTopNav() {
   const propertyName = activeProperty?.name || '숙소 없음';
 
   return (
-    <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-6 bg-dark-base/80 backdrop-blur-lg border-b border-dark-highlight">
+    <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-6 bg-white/80 backdrop-blur-lg border-b border-border">
       {/* Left: Mobile menu + Property/Month */}
       <div className="flex items-center gap-4">
         {/* Mobile menu trigger */}
-        <button className="md:hidden p-2 rounded-lg hover:bg-dark-highlight text-[#B3B3B3]">
+        <button className="md:hidden p-2 rounded-lg hover:bg-dark-highlight text-muted-foreground">
           <Menu className="w-5 h-5" />
         </button>
 
@@ -44,7 +44,7 @@ export function PortalTopNav() {
             className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-elevated hover:bg-dark-highlight transition-colors text-sm"
           >
             <span className="font-medium">{propertyName}</span>
-            {properties.length > 1 && <ChevronDown className="w-4 h-4 text-[#6A6A6A]" />}
+            {properties.length > 1 && <ChevronDown className="w-4 h-4 text-muted-foreground" />}
           </button>
           {isPropertyOpen && properties.length > 1 && (
             <div className="absolute top-full left-0 mt-2 w-64 rounded-xl bg-dark-elevated border border-dark-highlight shadow-2xl z-50 overflow-hidden">
@@ -55,7 +55,7 @@ export function PortalTopNav() {
                   className="w-full px-4 py-3 text-left text-sm hover:bg-dark-highlight transition-colors"
                 >
                   <div className="font-medium">{prop.name}</div>
-                  <div className="text-xs text-[#6A6A6A]">{prop.region}</div>
+                  <div className="text-xs text-muted-foreground">{prop.region}</div>
                 </button>
               ))}
             </div>
@@ -66,10 +66,10 @@ export function PortalTopNav() {
         <div className="relative">
           <button
             onClick={() => { setIsMonthOpen(!isMonthOpen); setIsPropertyOpen(false); }}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-elevated hover:bg-dark-highlight transition-colors text-sm text-[#B3B3B3]"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-elevated hover:bg-dark-highlight transition-colors text-sm text-muted-foreground"
           >
             <span>{formatMonth(currentMonth)}</span>
-            <ChevronDown className="w-4 h-4 text-[#6A6A6A]" />
+            <ChevronDown className="w-4 h-4 text-muted-foreground" />
           </button>
           {isMonthOpen && (
             <div className="absolute top-full left-0 mt-2 w-44 rounded-xl bg-dark-elevated border border-dark-highlight shadow-2xl z-50 overflow-hidden">

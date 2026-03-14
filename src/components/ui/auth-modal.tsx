@@ -142,24 +142,9 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
     try {
       await login(email, password);
       onClose();
-      // Property 유무로 온보딩 완료 여부 판단
-      const { getFirebaseAuth } = await import('@/lib/firebase/auth');
-      const auth = getFirebaseAuth();
-      const fbUser = auth.currentUser;
-      if (fbUser) {
-        const token = await fbUser.getIdToken();
-        const res = await fetch('/api/properties', {
-          headers: { 'Authorization': `Bearer ${token}` },
-        });
-        const data = await res.json();
-        if (data.success && data.data?.length > 0) {
-          router.push('/portal');
-        } else {
-          router.push('/onboarding');
-        }
-      } else {
-        router.push('/portal');
-      }
+      // 로그인 후 /portal로 이동 — PortalContext가 properties를 로드하고
+      // properties가 없으면 onboarding으로 리디렉트 처리
+      router.push('/portal');
     } catch (err: any) {
       setError(err.code ? getFirebaseErrorMessage(err.code) : (err.message || '로그인에 실패했어요.'));
     } finally {
@@ -205,7 +190,7 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
       {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-[70] p-4">
         <div
-          className="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200"
+          className="relative w-full max-w-sm bg-white rounded-2xl shadow-lg p-6 animate-in fade-in zoom-in-95 duration-200"
           role="dialog"
           aria-modal="true"
           aria-labelledby="auth-modal-title"

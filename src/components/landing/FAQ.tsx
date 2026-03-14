@@ -9,7 +9,7 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-24 px-4 bg-dark-elevated">
+    <section className="py-24 px-4 bg-gray-50">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -17,7 +17,7 @@ export function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             자주 묻는 질문
           </h2>
         </motion.div>
@@ -32,15 +32,15 @@ export function FAQ() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-dark-highlight rounded-xl border border-white/5 overflow-hidden"
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors"
+                  className="w-full flex items-center justify-between p-5 text-left hover:bg-gray-50 transition-colors"
                 >
-                  <span className="font-medium text-white pr-4">{item.question}</span>
+                  <span className="font-medium text-foreground pr-4">{item.question}</span>
                   <ChevronDown
-                    className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform duration-200 ${
+                    className={`w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform duration-200 ${
                       isOpen ? 'rotate-180' : ''
                     }`}
                   />
@@ -53,7 +53,7 @@ export function FAQ() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className="px-5 pb-5 text-sm text-gray-400 leading-relaxed">
+                      <div className="px-5 pb-5 text-sm text-muted-foreground leading-relaxed">
                         {item.answer}
                       </div>
                     </motion.div>

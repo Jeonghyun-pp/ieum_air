@@ -19,14 +19,14 @@ const platformConfig = {
   instagram: {
     name: 'Instagram',
     icon: Instagram,
-    color: 'text-pink-400',
+    color: 'text-pink-500',
     bg: 'bg-pink-500/10',
     description: '인스타그램 비즈니스 계정을 연결하면 팔로워, 인사이트 데이터를 자동으로 수집합니다.',
   },
   ga4: {
     name: 'Google Analytics 4',
     icon: BarChart3,
-    color: 'text-blue-400',
+    color: 'text-blue-500',
     bg: 'bg-blue-500/10',
     description: 'GA4를 연결하면 웹사이트 트래픽, 전환 데이터를 포털에서 확인할 수 있습니다.',
   },
@@ -132,12 +132,12 @@ function SettingsContent() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold mb-1">설정</h1>
-        <p className="text-[#B3B3B3]">외부 서비스 연동 및 계정 설정</p>
+        <p className="text-muted-foreground">외부 서비스 연동 및 계정 설정</p>
       </div>
 
       {/* Success/Error messages */}
       {successParam && (
-        <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-500/10 text-emerald-400">
+        <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-500/10 text-emerald-500">
           <CheckCircle2 className="w-5 h-5 shrink-0" />
           <span className="text-sm">
             {successParam === 'instagram' ? 'Instagram이 성공적으로 연결되었습니다.' : 'Google Analytics가 성공적으로 연결되었습니다.'}
@@ -145,7 +145,7 @@ function SettingsContent() {
         </div>
       )}
       {errorParam && (
-        <div className="flex items-center gap-3 p-4 rounded-xl bg-red-500/10 text-red-400">
+        <div className="flex items-center gap-3 p-4 rounded-xl bg-red-500/10 text-red-500">
           <AlertCircle className="w-5 h-5 shrink-0" />
           <span className="text-sm">연동 중 오류가 발생했습니다. 다시 시도해주세요.</span>
         </div>
@@ -170,14 +170,14 @@ function SettingsContent() {
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-semibold">{config.name}</h3>
                     {isConnected && (
-                      <span className="px-2 py-0.5 rounded-full text-xs bg-emerald-500/10 text-emerald-400">
+                      <span className="px-2 py-0.5 rounded-full text-xs bg-emerald-500/10 text-emerald-500">
                         연결됨
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-[#B3B3B3] mb-4">{config.description}</p>
+                  <p className="text-sm text-muted-foreground mb-4">{config.description}</p>
                   {isConnected && integration.accountName && (
-                    <p className="text-xs text-[#6A6A6A] mb-3">
+                    <p className="text-xs text-muted-foreground mb-3">
                       계정: @{integration.accountName}
                     </p>
                   )}
@@ -185,7 +185,7 @@ function SettingsContent() {
                     {isConnected ? (
                       <Button
                         variant="outline"
-                        className="border-dark-highlight text-[#B3B3B3] hover:text-red-400 hover:border-red-500/30"
+                        className="border-border text-muted-foreground hover:text-red-500 hover:border-red-500/30"
                         onClick={() => handleDisconnect(platform)}
                       >
                         <Unlink className="w-4 h-4 mr-2" />

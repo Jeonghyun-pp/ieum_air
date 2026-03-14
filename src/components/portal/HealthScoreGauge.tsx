@@ -57,14 +57,14 @@ export function HealthScoreGauge({ score, grade, size = 'md', label }: HealthSco
         </svg>
         {/* Center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className={`${fontSize} font-bold text-white`}>{score}</span>
+          <span className={`${fontSize} font-bold text-foreground`}>{score}</span>
           <span className={`${gradeSize} font-semibold`} style={{ color }}>
             {grade}등급
           </span>
         </div>
       </div>
       {label && (
-        <span className="text-xs text-[#6A6A6A]">{label}</span>
+        <span className="text-xs text-muted-foreground">{label}</span>
       )}
     </div>
   );

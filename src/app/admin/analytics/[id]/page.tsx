@@ -87,13 +87,13 @@ export default function ClientAnalyticsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <Link href="/admin/analytics" className="flex items-center gap-2 text-sm text-[#B3B3B3] hover:text-white transition-colors">
+        <Link href="/admin/analytics" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-4 h-4" />
           전체 분석으로
         </Link>
         <div className="flex items-center justify-center h-64">
-          <Loader2 className="w-6 h-6 animate-spin text-[#6A6A6A]" />
-          <span className="ml-2 text-sm text-[#6A6A6A]">데이터를 불러오는 중...</span>
+          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+          <span className="ml-2 text-sm text-muted-foreground">데이터를 불러오는 중...</span>
         </div>
       </div>
     );
@@ -102,7 +102,7 @@ export default function ClientAnalyticsPage() {
   if (analyticsError) {
     return (
       <div className="space-y-6">
-        <Link href="/admin/analytics" className="flex items-center gap-2 text-sm text-[#B3B3B3] hover:text-white transition-colors">
+        <Link href="/admin/analytics" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-4 h-4" />
           전체 분석으로
         </Link>
@@ -115,7 +115,7 @@ export default function ClientAnalyticsPage() {
 
   return (
     <div className="space-y-6">
-      <Link href="/admin/analytics" className="flex items-center gap-2 text-sm text-[#B3B3B3] hover:text-white transition-colors">
+      <Link href="/admin/analytics" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
         <ArrowLeft className="w-4 h-4" />
         전체 분석으로
       </Link>
@@ -123,7 +123,7 @@ export default function ClientAnalyticsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{clientName}</h1>
-          <p className="text-sm text-[#6A6A6A] mt-1">고객별 상세 분석 리포트 · {month}</p>
+          <p className="text-sm text-muted-foreground mt-1">고객별 상세 분석 리포트 · {month}</p>
         </div>
         <button
           onClick={handleAggregate}
@@ -140,8 +140,8 @@ export default function ClientAnalyticsPage() {
           <div key={m.label} className="p-5 rounded-2xl bg-dark-elevated">
             <div className="text-2xl font-bold">{m.value}</div>
             <div className="flex items-center justify-between mt-1">
-              <span className="text-xs text-[#6A6A6A]">{m.label}</span>
-              {m.delta && <span className="text-xs text-[#6A6A6A]">{m.delta}</span>}
+              <span className="text-xs text-muted-foreground">{m.label}</span>
+              {m.delta && <span className="text-xs text-muted-foreground">{m.delta}</span>}
             </div>
           </div>
         ))}
@@ -169,7 +169,7 @@ export default function ClientAnalyticsPage() {
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <div className="flex items-center justify-center h-[280px] text-sm text-[#6A6A6A]">
+          <div className="flex items-center justify-center h-[280px] text-sm text-muted-foreground">
             집계된 예약 데이터가 없습니다
           </div>
         )}
@@ -203,7 +203,7 @@ export default function ClientAnalyticsPage() {
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-[260px] text-sm text-[#6A6A6A]">
+            <div className="flex items-center justify-center h-[260px] text-sm text-muted-foreground">
               집계된 국적 데이터가 없습니다
             </div>
           )}
@@ -230,7 +230,7 @@ export default function ClientAnalyticsPage() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-[260px] text-sm text-[#6A6A6A]">
+            <div className="flex items-center justify-center h-[260px] text-sm text-muted-foreground">
               집계된 채널 데이터가 없습니다
             </div>
           )}
@@ -244,7 +244,7 @@ export default function ClientAnalyticsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-dark-highlight text-[#6A6A6A]">
+                <tr className="border-b border-border text-muted-foreground">
                   <th className="text-left py-3 font-medium">이벤트</th>
                   <th className="text-left py-3 font-medium">추천 조정</th>
                   <th className="text-left py-3 font-medium">사유</th>
@@ -252,17 +252,17 @@ export default function ClientAnalyticsPage() {
               </thead>
               <tbody>
                 {pricingRecommendations.map((row: any, idx: number) => (
-                  <tr key={`${row.eventName}-${idx}`} className="border-b border-dark-highlight/50">
+                  <tr key={`${row.eventName}-${idx}`} className="border-b border-border/50">
                     <td className="py-3 font-medium">{row.eventName}</td>
                     <td className="py-3 text-orange-400 font-bold">{row.recommendedAdjustment}</td>
-                    <td className="py-3 text-[#B3B3B3]">{row.reason}</td>
+                    <td className="py-3 text-muted-foreground">{row.reason}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         ) : (
-          <div className="text-sm text-[#6A6A6A]">가격 조정 추천이 없습니다</div>
+          <div className="text-sm text-muted-foreground">가격 조정 추천이 없습니다</div>
         )}
       </div>
 
@@ -271,7 +271,7 @@ export default function ClientAnalyticsPage() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold mb-1">리포트 생성</h3>
-            <p className="text-sm text-[#B3B3B3]">이 분석 데이터를 고객 포털에 발행하거나 PDF로 내보냅니다.</p>
+            <p className="text-sm text-muted-foreground">이 분석 데이터를 고객 포털에 발행하거나 PDF로 내보냅니다.</p>
           </div>
           <div className="flex gap-2">
             <button className="px-4 py-2 rounded-full bg-dark-highlight text-sm font-medium hover:bg-dark-highlight/80 transition-colors">

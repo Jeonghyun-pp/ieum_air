@@ -135,7 +135,7 @@ export default function AdminContentPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 animate-spin text-[#6A6A6A]" />
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -147,7 +147,7 @@ export default function AdminContentPage() {
         <p className="text-red-400 text-sm">데이터를 불러오지 못했습니다.</p>
         <button
           onClick={() => refetch()}
-          className="text-sm text-white/70 hover:text-white underline"
+          className="text-sm text-foreground/70 hover:text-foreground underline"
         >
           다시 시도
         </button>
@@ -186,7 +186,7 @@ export default function AdminContentPage() {
               <div className="flex items-center gap-2 mb-4">
                 <div className={`w-2.5 h-2.5 rounded-full ${col.color}`} />
                 <h3 className="text-sm font-semibold">{col.label}</h3>
-                <span className="text-xs text-[#6A6A6A] ml-auto">{colItems.length}</span>
+                <span className="text-xs text-muted-foreground ml-auto">{colItems.length}</span>
               </div>
               <div className="space-y-2">
                 {colItems.map((item) => (
@@ -197,13 +197,13 @@ export default function AdminContentPage() {
                     className="p-3 rounded-xl bg-dark-highlight hover:bg-dark-highlight/80 cursor-grab active:cursor-grabbing transition-colors group"
                   >
                     <div className="flex items-start gap-2">
-                      <GripVertical className="w-4 h-4 text-[#6A6A6A] opacity-0 group-hover:opacity-100 transition-opacity mt-0.5 shrink-0" />
+                      <GripVertical className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity mt-0.5 shrink-0" />
                       <div className="min-w-0 flex-1">
                         <div className="text-sm font-medium mb-1.5">{item.title}</div>
-                        <span className={`inline-block text-xs px-2 py-0.5 rounded-full mb-2 ${typeColors[item.displayType] ?? 'bg-white/10 text-white/60'}`}>
+                        <span className={`inline-block text-xs px-2 py-0.5 rounded-full mb-2 ${typeColors[item.displayType] ?? 'bg-foreground/10 text-foreground/60'}`}>
                           {item.displayType}
                         </span>
-                        <div className="flex items-center justify-between text-xs text-[#6A6A6A]">
+                        <div className="flex items-center justify-between text-xs text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <User className="w-3 h-3" />
                             {item.propertyName}

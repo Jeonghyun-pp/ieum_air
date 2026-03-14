@@ -61,12 +61,12 @@ export default function ClientsPage() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6A6A6A]" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="숙소명 또는 지역으로 검색"
-          className="w-full pl-11 pr-4 py-3 rounded-xl bg-dark-elevated border-0 text-sm placeholder:text-[#6A6A6A] focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+          className="w-full pl-11 pr-4 py-3 rounded-xl bg-dark-elevated border-0 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50"
         />
       </div>
 
@@ -104,7 +104,7 @@ export default function ClientsPage() {
                     {plan}
                   </span>
                 </div>
-                <div className="space-y-1.5 text-xs text-[#6A6A6A]">
+                <div className="space-y-1.5 text-xs text-muted-foreground">
                   <div>{p.region}</div>
                   <div>시작: {formatDate(p.createdAt)}</div>
                   <div>서비스: {p.integrationCount || 0}개 연동</div>

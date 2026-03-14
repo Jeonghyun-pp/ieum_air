@@ -18,7 +18,7 @@ function mapPlanStatus(currentPlanStatus: string | null, status: string): { labe
       case 'COMPLETED':
         return { label: '완료', color: 'text-emerald-400' };
       default:
-        return { label: currentPlanStatus, color: 'text-[#B3B3B3]' };
+        return { label: currentPlanStatus, color: 'text-muted-foreground' };
     }
   }
 
@@ -28,9 +28,9 @@ function mapPlanStatus(currentPlanStatus: string | null, status: string): { labe
     case 'onboarding':
       return { label: '온보딩', color: 'text-orange-400' };
     case 'paused':
-      return { label: '일시정지', color: 'text-[#6A6A6A]' };
+      return { label: '일시정지', color: 'text-muted-foreground' };
     default:
-      return { label: status, color: 'text-[#B3B3B3]' };
+      return { label: status, color: 'text-muted-foreground' };
   }
 }
 
@@ -107,7 +107,7 @@ export default function AdminDashboard() {
                 <Icon className={`w-5 h-5 ${m.color}`} />
               </div>
               <div className="text-2xl font-bold">{m.value}</div>
-              <div className="text-xs text-[#6A6A6A] mt-1">{m.label}</div>
+              <div className="text-xs text-muted-foreground mt-1">{m.label}</div>
             </div>
           );
         })}
@@ -124,7 +124,7 @@ export default function AdminDashboard() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-dark-highlight text-[#6A6A6A]">
+              <tr className="border-b border-border text-muted-foreground">
                 <th className="text-left py-3 font-medium">숙소</th>
                 <th className="text-left py-3 font-medium">플랜</th>
                 <th className="text-left py-3 font-medium">진행률</th>
@@ -134,18 +134,18 @@ export default function AdminDashboard() {
             <tbody>
               {clients.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="py-6 text-center text-[#6A6A6A]">
+                  <td colSpan={4} className="py-6 text-center text-muted-foreground">
                     등록된 숙소가 없습니다
                   </td>
                 </tr>
               ) : (
                 clients.map((c) => (
-                  <tr key={c.id} className="border-b border-dark-highlight/50 hover:bg-dark-highlight/30 transition-colors">
+                  <tr key={c.id} className="border-b border-border/50 hover:bg-dark-highlight/30 transition-colors">
                     <td className="py-3 font-medium">{c.name}</td>
                     <td className="py-3">
                       <span className="px-2 py-0.5 rounded-full text-xs bg-dark-highlight">{c.plan}</span>
                     </td>
-                    <td className="py-3 text-[#B3B3B3]">{c.progress}</td>
+                    <td className="py-3 text-muted-foreground">{c.progress}</td>
                     <td className={`py-3 ${c.statusColor}`}>{c.status}</td>
                   </tr>
                 ))
@@ -159,7 +159,7 @@ export default function AdminDashboard() {
       <div className="p-6 rounded-2xl bg-dark-elevated">
         <h2 className="text-sm font-semibold mb-4">이번 주 할 일</h2>
         <div className="flex items-center justify-center py-6">
-          <p className="text-sm text-[#6A6A6A]">
+          <p className="text-sm text-muted-foreground">
             작업 목록은 콘텐츠에서 확인하세요 →{' '}
             <Link href="/admin/content" className="text-accent-purple hover:underline">
               콘텐츠 관리

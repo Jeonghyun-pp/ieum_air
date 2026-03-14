@@ -77,7 +77,7 @@ export default function AssetsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold mb-1">자료</h1>
-        <p className="text-[#B3B3B3]">할 일 확인, 파일 업로드, 문의하기</p>
+        <p className="text-muted-foreground">할 일 확인, 파일 업로드, 문의하기</p>
       </div>
 
       {/* Todo list */}
@@ -87,24 +87,24 @@ export default function AssetsPage() {
           {todos.map((todo) => (
             <div
               key={todo.id}
-              className="flex items-center gap-3 p-3 rounded-xl hover:bg-dark-highlight transition-colors"
+              className="flex items-center gap-3 p-3 rounded-xl hover:bg-dark-highlight/50 transition-colors"
             >
               {todo.status === 'completed' ? (
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
               ) : (
-                <Circle className="w-5 h-5 text-[#6A6A6A] shrink-0" />
+                <Circle className="w-5 h-5 text-muted-foreground shrink-0" />
               )}
               <span className={`flex-1 text-sm ${
-                todo.status === 'completed' ? 'text-[#6A6A6A] line-through' : ''
+                todo.status === 'completed' ? 'text-muted-foreground line-through' : ''
               }`}>
                 {todo.title}
               </span>
               {todo.required && (
-                <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400">
+                <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-500">
                   필수
                 </span>
               )}
-              <span className="text-xs text-[#6A6A6A]">{todo.due}</span>
+              <span className="text-xs text-muted-foreground">{todo.due}</span>
             </div>
           ))}
         </div>
@@ -113,12 +113,12 @@ export default function AssetsPage() {
       {/* File upload */}
       <div className="p-6 rounded-2xl bg-dark-elevated">
         <h3 className="text-sm font-semibold mb-4">파일 업로드</h3>
-        <div className="border-2 border-dashed border-dark-highlight rounded-xl p-8 text-center hover:border-purple-500/30 transition-colors cursor-pointer">
-          <Upload className="w-8 h-8 text-[#6A6A6A] mx-auto mb-3" />
-          <p className="text-sm text-[#B3B3B3] mb-1">파일을 드래그하거나 클릭하여 업로드</p>
-          <p className="text-xs text-[#6A6A6A]">JPG, PNG, PDF (최대 10MB)</p>
+        <div className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-purple-500/30 transition-colors cursor-pointer">
+          <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
+          <p className="text-sm text-muted-foreground mb-1">파일을 드래그하거나 클릭하여 업로드</p>
+          <p className="text-xs text-muted-foreground">JPG, PNG, PDF (최대 10MB)</p>
         </div>
-        <div className="mt-4 text-sm text-[#6A6A6A]">
+        <div className="mt-4 text-sm text-muted-foreground">
           아직 업로드된 파일이 없습니다.
         </div>
       </div>
@@ -132,14 +132,14 @@ export default function AssetsPage() {
             value={messageSubject}
             onChange={(e) => setMessageSubject(e.target.value)}
             placeholder="문의 제목"
-            className="w-full px-4 py-3 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-[#6A6A6A] focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            className="w-full px-4 py-3 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50"
           />
           <textarea
             value={messageBody}
             onChange={(e) => setMessageBody(e.target.value)}
             placeholder="문의 내용을 입력하세요"
             rows={4}
-            className="w-full px-4 py-3 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-[#6A6A6A] focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none"
+            className="w-full px-4 py-3 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none"
           />
           <Button
             variant="gradient"

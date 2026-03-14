@@ -17,23 +17,28 @@ export async function resolveActiveProperty(
     return { uid: '', property: null };
   }
 
-  const { searchParams } = new URL(request.url);
-  const propertyId = searchParams.get('propertyId');
+  try {
+    const { searchParams } = new URL(request.url);
+    const propertyId = searchParams.get('propertyId');
 
-  if (propertyId) {
-    const property = await getPropertyById(propertyId);
-    if (property && (property.ownerId === user.uid || user.role === 'admin')) {
-      return { uid: user.uid, property };
+    if (propertyId) {
+      const property = await getPropertyById(propertyId);
+      if (property && (property.ownerId === user.uid || user.role === 'admin')) {
+        return { uid: user.uid, property };
+      }
     }
-  }
 
-  // 사용자의 properties 조회
-  const properties = await getPropertiesByOwner(user.uid);
-  if (properties.length === 0) {
+    // 사용자의 properties 조회
+    const properties = await getPropertiesByOwner(user.uid);
+    if (properties.length === 0) {
+      return { uid: user.uid, property: null };
+    }
+
+    // active property 우선
+    const active = properties.find(p => p.status === 'active');
+    return { uid: user.uid, property: active || properties[0] };
+  } catch (error) {
+    console.error('resolveActiveProperty error:', error);
     return { uid: user.uid, property: null };
   }
-
-  // active property 우선
-  const active = properties.find(p => p.status === 'active');
-  return { uid: user.uid, property: active || properties[0] };
 }

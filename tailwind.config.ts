@@ -64,12 +64,12 @@ const config = {
           us: "hsl(var(--country-us))",
           sea: "hsl(var(--country-sea))",
         },
-        // Dark surface colors (for explicit use)
+        // Pastel surface colors (for explicit use)
         dark: {
-          base: "#121212",
-          elevated: "#181818",
-          highlight: "#282828",
-          surface: "#1a1a2e",
+          base: "#F8F9FC",
+          elevated: "#FFFFFF",
+          highlight: "#EDE9FE",
+          surface: "#EEF2FF",
         },
       },
       borderRadius: {

@@ -26,20 +26,20 @@ const statusLabels: Record<string, string> = {
 };
 
 const impactConfig = {
-  high: { icon: ArrowUpRight, color: 'text-emerald-400', bg: 'bg-emerald-500/10', label: '높음' },
-  medium: { icon: Minus, color: 'text-blue-400', bg: 'bg-blue-500/10', label: '보통' },
-  low: { icon: ArrowDownRight, color: 'text-[#6A6A6A]', bg: 'bg-dark-highlight', label: '낮음' },
+  high: { icon: ArrowUpRight, color: 'text-emerald-500', bg: 'bg-emerald-500/10', label: '높음' },
+  medium: { icon: Minus, color: 'text-blue-500', bg: 'bg-blue-500/10', label: '보통' },
+  low: { icon: ArrowDownRight, color: 'text-muted-foreground', bg: 'bg-dark-highlight', label: '낮음' },
 };
 
 const effortLabels = { high: '많음', medium: '보통', low: '적음' };
 
 const categoryColors: Record<string, string> = {
-  pricing: 'bg-emerald-500/10 text-emerald-400',
-  content: 'bg-purple-500/10 text-purple-400',
-  photos: 'bg-pink-500/10 text-pink-400',
-  amenities: 'bg-blue-500/10 text-blue-400',
-  reviews: 'bg-orange-500/10 text-orange-400',
-  response: 'bg-cyan-500/10 text-cyan-400',
+  pricing: 'bg-emerald-500/10 text-emerald-500',
+  content: 'bg-purple-500/10 text-purple-500',
+  photos: 'bg-pink-500/10 text-pink-500',
+  amenities: 'bg-blue-500/10 text-blue-500',
+  reviews: 'bg-orange-500/10 text-orange-500',
+  response: 'bg-cyan-500/10 text-cyan-500',
 };
 
 export default function PlanPage() {
@@ -83,14 +83,14 @@ export default function PlanPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold mb-1">이번 달 전략</h1>
-          <p className="text-[#B3B3B3]">{formatMonth(currentMonth)} 전략 브리프</p>
+          <p className="text-muted-foreground">{formatMonth(currentMonth)} 전략 브리프</p>
         </div>
         <span className={`px-3 py-1 rounded-full text-xs font-medium ${
           status === 'APPROVED' || status === 'RUNNING'
-            ? 'bg-emerald-500/10 text-emerald-400'
+            ? 'bg-emerald-500/10 text-emerald-500'
             : status === 'AWAITING_APPROVAL'
-            ? 'bg-orange-500/10 text-orange-400'
-            : 'bg-dark-highlight text-[#B3B3B3]'
+            ? 'bg-orange-500/10 text-orange-500'
+            : 'bg-dark-highlight text-muted-foreground'
         }`}>
           {statusLabels[status] || status}
         </span>
@@ -102,23 +102,23 @@ export default function PlanPage() {
           {/* Summary */}
           <div className="p-6 rounded-2xl bg-dark-elevated border border-purple-500/10">
             <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-4 h-4 text-purple-400" />
-              <span className="text-xs text-purple-400 font-medium">AI 전략 분석</span>
+              <Sparkles className="w-4 h-4 text-purple-500" />
+              <span className="text-xs text-purple-500 font-medium">AI 전략 분석</span>
             </div>
-            <p className="text-[#B3B3B3] leading-relaxed">{strategy.summary}</p>
+            <p className="text-muted-foreground leading-relaxed">{strategy.summary}</p>
           </div>
 
           {/* Key Insights */}
           <div className="p-6 rounded-2xl bg-dark-elevated">
             <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-yellow-400" />
+              <Lightbulb className="w-4 h-4 text-yellow-500" />
               핵심 인사이트
             </h3>
             <div className="space-y-2">
               {strategy.keyInsights.map((insight, i) => (
                 <div key={i} className="flex items-start gap-3 text-sm">
-                  <span className="text-purple-400 font-bold shrink-0">{i + 1}.</span>
-                  <span className="text-[#B3B3B3]">{insight}</span>
+                  <span className="text-purple-500 font-bold shrink-0">{i + 1}.</span>
+                  <span className="text-muted-foreground">{insight}</span>
                 </div>
               ))}
             </div>
@@ -131,12 +131,12 @@ export default function PlanPage() {
               {strategy.priorities.map((p) => {
                 const impact = impactConfig[p.impact];
                 const ImpactIcon = impact.icon;
-                const catColor = categoryColors[p.category] || 'bg-dark-highlight text-[#B3B3B3]';
+                const catColor = categoryColors[p.category] || 'bg-dark-highlight text-muted-foreground';
 
                 return (
                   <div key={p.rank} className="p-4 rounded-xl bg-dark-elevated flex items-start gap-4">
                     <div className={`w-10 h-10 rounded-xl ${impact.bg} flex items-center justify-center shrink-0`}>
-                      <span className="text-lg font-bold text-white">{p.rank}</span>
+                      <span className="text-lg font-bold text-foreground">{p.rank}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -145,13 +145,13 @@ export default function PlanPage() {
                           {p.category}
                         </span>
                       </div>
-                      <p className="text-sm text-[#B3B3B3]">{p.description}</p>
+                      <p className="text-sm text-muted-foreground">{p.description}</p>
                       <div className="flex items-center gap-4 mt-2">
                         <div className="flex items-center gap-1 text-xs">
                           <ImpactIcon className={`w-3 h-3 ${impact.color}`} />
                           <span className={impact.color}>영향: {impact.label}</span>
                         </div>
-                        <span className="text-xs text-[#6A6A6A]">노력: {effortLabels[p.effort]}</span>
+                        <span className="text-xs text-muted-foreground">노력: {effortLabels[p.effort]}</span>
                       </div>
                     </div>
                   </div>
@@ -165,19 +165,19 @@ export default function PlanPage() {
             {strategy.pricingStrategy && (
               <div className="p-5 rounded-2xl bg-dark-elevated">
                 <div className="flex items-center gap-2 mb-3">
-                  <TrendingUp className="w-4 h-4 text-emerald-400" />
-                  <h4 className="text-xs text-[#6A6A6A] uppercase tracking-wider">가격 전략</h4>
+                  <TrendingUp className="w-4 h-4 text-emerald-500" />
+                  <h4 className="text-xs text-muted-foreground uppercase tracking-wider">가격 전략</h4>
                 </div>
-                <p className="text-sm text-[#B3B3B3]">{strategy.pricingStrategy}</p>
+                <p className="text-sm text-muted-foreground">{strategy.pricingStrategy}</p>
               </div>
             )}
             {strategy.contentStrategy && (
               <div className="p-5 rounded-2xl bg-dark-elevated">
                 <div className="flex items-center gap-2 mb-3">
-                  <Target className="w-4 h-4 text-purple-400" />
-                  <h4 className="text-xs text-[#6A6A6A] uppercase tracking-wider">콘텐츠 전략</h4>
+                  <Target className="w-4 h-4 text-purple-500" />
+                  <h4 className="text-xs text-muted-foreground uppercase tracking-wider">콘텐츠 전략</h4>
                 </div>
-                <p className="text-sm text-[#B3B3B3]">{strategy.contentStrategy}</p>
+                <p className="text-sm text-muted-foreground">{strategy.contentStrategy}</p>
               </div>
             )}
           </div>
@@ -186,7 +186,7 @@ export default function PlanPage() {
           {strategy.seasonalFactors.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {strategy.seasonalFactors.map((factor) => (
-                <span key={factor} className="px-3 py-1 text-xs rounded-full bg-dark-highlight text-[#B3B3B3]">
+                <span key={factor} className="px-3 py-1 text-xs rounded-full bg-dark-highlight text-muted-foreground">
                   {factor}
                 </span>
               ))}
@@ -198,9 +198,9 @@ export default function PlanPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-6 rounded-2xl bg-dark-elevated">
             <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center mb-4">
-              <Target className="w-5 h-5 text-red-400" />
+              <Target className="w-5 h-5 text-red-500" />
             </div>
-            <h3 className="text-xs text-[#6A6A6A] uppercase tracking-wider mb-2">타겟 국가</h3>
+            <h3 className="text-xs text-muted-foreground uppercase tracking-wider mb-2">타겟 국가</h3>
             <div className="flex flex-wrap gap-2">
               {plan.targetCountries.map((country) => (
                 <span key={country} className="px-3 py-1 rounded-full text-sm bg-dark-highlight">{country}</span>
@@ -208,7 +208,7 @@ export default function PlanPage() {
             </div>
           </div>
           <div className="p-6 rounded-2xl bg-dark-elevated">
-            <h3 className="text-xs text-[#6A6A6A] uppercase tracking-wider mb-2">채널</h3>
+            <h3 className="text-xs text-muted-foreground uppercase tracking-wider mb-2">채널</h3>
             <div className="flex flex-wrap gap-2">
               {plan.platforms.map((p) => (
                 <span key={p} className="px-3 py-1 rounded-full text-sm bg-dark-highlight">{p}</span>
@@ -216,7 +216,7 @@ export default function PlanPage() {
             </div>
           </div>
           <div className="p-6 rounded-2xl bg-dark-elevated">
-            <h3 className="text-xs text-[#6A6A6A] uppercase tracking-wider mb-2">메시지 포커스</h3>
+            <h3 className="text-xs text-muted-foreground uppercase tracking-wider mb-2">메시지 포커스</h3>
             <div className="flex flex-wrap gap-2">
               {plan.messageFocus.map((f) => (
                 <span key={f} className="px-3 py-1 rounded-full text-sm bg-dark-highlight">{f}</span>
@@ -230,14 +230,14 @@ export default function PlanPage() {
       {status === 'AWAITING_APPROVAL' && (
         <div className="p-6 rounded-2xl bg-dark-surface border border-purple-500/20">
           <h3 className="font-semibold mb-2">플랜 승인이 필요합니다</h3>
-          <p className="text-sm text-[#B3B3B3] mb-4">
+          <p className="text-sm text-muted-foreground mb-4">
             전략을 검토하신 후 승인하거나 수정을 요청해주세요.
           </p>
           <div className="flex gap-3">
             <Button variant="gradient" onClick={() => setStatus('APPROVED')}>
               승인하기
             </Button>
-            <Button variant="outline" onClick={() => setStatus('DRAFT')} className="border-dark-highlight text-[#B3B3B3] hover:text-white hover:bg-dark-highlight">
+            <Button variant="outline" onClick={() => setStatus('DRAFT')} className="border-border text-muted-foreground hover:text-foreground hover:bg-dark-highlight/50">
               수정 요청
             </Button>
           </div>

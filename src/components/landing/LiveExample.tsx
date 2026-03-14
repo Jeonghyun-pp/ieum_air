@@ -33,7 +33,7 @@ export function LiveExample() {
         <div className="grid md:grid-cols-3 gap-6">
           {LIVE_CARDS.map((card, i) => (
             <Reveal key={card.monthLabel} delay={0.1 * (i + 1)}>
-              <div className="group relative p-8 rounded-3xl bg-gradient-to-br from-purple-900/90 to-purple-800/90 overflow-hidden shadow-2xl shadow-purple-900/20 hover:shadow-purple-900/30 transition-all duration-300 hover:-translate-y-1">
+              <div className="group relative p-8 rounded-3xl bg-gradient-to-br from-purple-900/90 to-purple-800/90 overflow-hidden shadow-2xl shadow-purple-200/30 hover:shadow-purple-200/40 transition-all duration-300 hover:-translate-y-1">
                 <div className={`absolute inset-0 bg-gradient-to-br ${cardAccents[i]} backdrop-blur-sm`}></div>
                 <div className="relative z-10">
                   {/* Month badge */}

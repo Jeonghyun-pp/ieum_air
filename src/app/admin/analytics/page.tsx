@@ -33,8 +33,8 @@ export default function AdminAnalyticsPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-6 h-6 animate-spin text-[#6A6A6A]" />
-        <span className="ml-2 text-sm text-[#6A6A6A]">데이터를 불러오는 중...</span>
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        <span className="ml-2 text-sm text-muted-foreground">데이터를 불러오는 중...</span>
       </div>
     );
   }
@@ -52,7 +52,7 @@ export default function AdminAnalyticsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">전체 분석</h1>
         {properties && (
-          <span className="text-sm text-[#B3B3B3]">활성 고객: {properties.length}명</span>
+          <span className="text-sm text-muted-foreground">활성 고객: {properties.length}명</span>
         )}
       </div>
 
@@ -67,8 +67,8 @@ export default function AdminAnalyticsPage() {
               </div>
               <div className="text-2xl font-bold">{m.value}</div>
               <div className="flex items-center justify-between mt-1">
-                <span className="text-xs text-[#6A6A6A]">{m.label}</span>
-                <span className="text-xs text-[#6A6A6A]">{m.delta}</span>
+                <span className="text-xs text-muted-foreground">{m.label}</span>
+                <span className="text-xs text-muted-foreground">{m.delta}</span>
               </div>
             </div>
           );
@@ -78,7 +78,7 @@ export default function AdminAnalyticsPage() {
       {/* Monthly Revenue Chart */}
       <div className="p-6 rounded-2xl bg-dark-elevated">
         <h2 className="text-sm font-semibold mb-4">월별 매출 추이 (만원)</h2>
-        <div className="flex items-center justify-center h-[280px] text-sm text-[#6A6A6A]">
+        <div className="flex items-center justify-center h-[280px] text-sm text-muted-foreground">
           데이터 수집 후 표시됩니다
         </div>
       </div>
@@ -98,7 +98,7 @@ export default function AdminAnalyticsPage() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-[280px] text-sm text-[#6A6A6A]">
+            <div className="flex items-center justify-center h-[280px] text-sm text-muted-foreground">
               등록된 고객이 없습니다
             </div>
           )}
@@ -107,7 +107,7 @@ export default function AdminAnalyticsPage() {
         {/* Nationality Distribution */}
         <div className="p-6 rounded-2xl bg-dark-elevated">
           <h2 className="text-sm font-semibold mb-4">전체 게스트 국적 비율</h2>
-          <div className="flex items-center justify-center h-[280px] text-sm text-[#6A6A6A]">
+          <div className="flex items-center justify-center h-[280px] text-sm text-muted-foreground">
             데이터 수집 후 표시됩니다
           </div>
         </div>
@@ -125,15 +125,15 @@ export default function AdminAnalyticsPage() {
                 className="flex items-center justify-between p-4 rounded-xl bg-dark-highlight hover:bg-dark-highlight/80 transition-colors group"
               >
                 <div>
-                  <div className="text-sm font-medium group-hover:text-white transition-colors">{client.name}</div>
-                  <div className="text-xs text-[#6A6A6A]">콘텐츠 {client.contentCount}건</div>
+                  <div className="text-sm font-medium group-hover:text-foreground transition-colors">{client.name}</div>
+                  <div className="text-xs text-muted-foreground">콘텐츠 {client.contentCount}건</div>
                 </div>
                 <span className="text-xs text-accent-purple group-hover:underline">상세 →</span>
               </Link>
             ))}
           </div>
         ) : (
-          <div className="text-sm text-[#6A6A6A]">등록된 고객이 없습니다</div>
+          <div className="text-sm text-muted-foreground">등록된 고객이 없습니다</div>
         )}
       </div>
     </div>

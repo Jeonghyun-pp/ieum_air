@@ -132,7 +132,7 @@ export default function OnboardingPage() {
       className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
         selected
           ? 'bg-accent-gradient text-white'
-          : 'bg-dark-highlight text-[#B3B3B3] hover:text-white hover:bg-dark-highlight/80'
+          : 'bg-dark-highlight text-muted-foreground hover:text-foreground hover:bg-dark-highlight/80'
       }`}
     >
       {label}
@@ -141,7 +141,7 @@ export default function OnboardingPage() {
 
   if (authLoading) {
     return (
-      <div className="dark min-h-screen bg-dark-base text-white flex items-center justify-center">
+      <div className="dark min-h-screen bg-dark-base text-foreground flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-purple-400" />
       </div>
     );
@@ -152,7 +152,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="dark min-h-screen bg-dark-base text-white flex flex-col items-center justify-center px-4 py-12">
+    <div className="dark min-h-screen bg-dark-base text-foreground flex flex-col items-center justify-center px-4 py-12">
       {/* Progress bar */}
       <div className="w-full max-w-xl mb-8">
         <div className="flex items-center justify-between mb-3">
@@ -163,7 +163,7 @@ export default function OnboardingPage() {
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                   i < step ? 'bg-emerald-500 text-white' :
                   i === step ? 'bg-accent-gradient text-white' :
-                  'bg-dark-highlight text-[#6A6A6A]'
+                  'bg-dark-highlight text-muted-foreground'
                 }`}>
                   {i < step ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                 </div>
@@ -176,7 +176,7 @@ export default function OnboardingPage() {
             );
           })}
         </div>
-        <div className="text-center text-sm text-[#6A6A6A]">
+        <div className="text-center text-sm text-muted-foreground">
           {steps[step].label} ({step + 1}/{steps.length})
         </div>
       </div>
@@ -197,16 +197,16 @@ export default function OnboardingPage() {
               <div className="space-y-6">
                 <h2 className="text-xl font-bold">숙소 정보를 알려주세요</h2>
                 <div>
-                  <label className="text-sm text-[#B3B3B3] mb-2 block">숙소 이름</label>
+                  <label className="text-sm text-muted-foreground mb-2 block">숙소 이름</label>
                   <input
                     value={form.propertyName}
                     onChange={(e) => setForm({ ...form, propertyName: e.target.value })}
                     placeholder="예: 제주 오션뷰 리조트"
-                    className="w-full px-4 py-3 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-[#6A6A6A] focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    className="w-full px-4 py-3 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   />
                 </div>
                 <div>
-                  <label className="text-sm text-[#B3B3B3] mb-2 block">지역</label>
+                  <label className="text-sm text-muted-foreground mb-2 block">지역</label>
                   <div className="flex flex-wrap gap-2">
                     {regions.map((r) => (
                       <Chip key={r} label={r} selected={form.region === r} onClick={() => selectChip('region', r)} />
@@ -214,7 +214,7 @@ export default function OnboardingPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm text-[#B3B3B3] mb-2 block">숙소 유형</label>
+                  <label className="text-sm text-muted-foreground mb-2 block">숙소 유형</label>
                   <div className="flex flex-wrap gap-2">
                     {propertyTypes.map((t) => (
                       <Chip key={t} label={t} selected={form.propertyType === t} onClick={() => selectChip('propertyType', t)} />
@@ -222,12 +222,12 @@ export default function OnboardingPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm text-[#B3B3B3] mb-2 block">에어비앤비 리스팅 URL (선택)</label>
+                  <label className="text-sm text-muted-foreground mb-2 block">에어비앤비 리스팅 URL (선택)</label>
                   <input
                     value={form.listingUrl}
                     onChange={(e) => setForm({ ...form, listingUrl: e.target.value })}
                     placeholder="https://airbnb.com/rooms/..."
-                    className="w-full px-4 py-3 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-[#6A6A6A] focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    className="w-full px-4 py-3 rounded-xl bg-dark-highlight border-0 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                   />
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function OnboardingPage() {
               <div className="space-y-6">
                 <h2 className="text-xl font-bold">현재 상황을 알려주세요</h2>
                 <div>
-                  <label className="text-sm text-[#B3B3B3] mb-2 block">월 평균 예약 수</label>
+                  <label className="text-sm text-muted-foreground mb-2 block">월 평균 예약 수</label>
                   <div className="flex flex-wrap gap-2">
                     {bookingRanges.map((r) => (
                       <Chip key={r} label={r} selected={form.monthlyBookings === r} onClick={() => selectChip('monthlyBookings', r)} />
@@ -246,7 +246,7 @@ export default function OnboardingPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm text-[#B3B3B3] mb-2 block">주요 게스트 국적</label>
+                  <label className="text-sm text-muted-foreground mb-2 block">주요 게스트 국적</label>
                   <div className="flex flex-wrap gap-2">
                     {nationalities.map((n) => (
                       <Chip key={n} label={n} selected={form.guestNationality === n} onClick={() => selectChip('guestNationality', n)} />
@@ -254,7 +254,7 @@ export default function OnboardingPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm text-[#B3B3B3] mb-2 block">현재 홍보 활동</label>
+                  <label className="text-sm text-muted-foreground mb-2 block">현재 홍보 활동</label>
                   <div className="flex flex-wrap gap-2">
                     {currentActivities.map((a) => (
                       <Chip key={a} label={a} selected={form.currentActivity === a} onClick={() => selectChip('currentActivity', a)} />
@@ -262,7 +262,7 @@ export default function OnboardingPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-sm text-[#B3B3B3] mb-2 block">가장 어려운 점</label>
+                  <label className="text-sm text-muted-foreground mb-2 block">가장 어려운 점</label>
                   <div className="flex flex-wrap gap-2">
                     {painPoints.map((p) => (
                       <Chip key={p} label={p} selected={form.painPoint === p} onClick={() => selectChip('painPoint', p)} />
@@ -293,7 +293,7 @@ export default function OnboardingPage() {
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {plan.features.map((f) => (
-                          <span key={f} className="text-xs text-[#6A6A6A]">{f}</span>
+                          <span key={f} className="text-xs text-muted-foreground">{f}</span>
                         ))}
                       </div>
                       {plan.highlighted && form.selectedPlan !== plan.name && (
@@ -316,7 +316,7 @@ export default function OnboardingPage() {
                 </div>
                 <div>
                   <h2 className="text-xl font-bold mb-2">등록 완료!</h2>
-                  <p className="text-sm text-[#B3B3B3]">
+                  <p className="text-sm text-muted-foreground">
                     곧 숙소 진단 결과와 함께 첫 번째 전략 브리프를 받아보실 수 있습니다.
                   </p>
                 </div>
@@ -341,7 +341,7 @@ export default function OnboardingPage() {
               variant="ghost"
               onClick={back}
               disabled={step === 0}
-              className="text-[#B3B3B3] hover:text-white disabled:opacity-30"
+              className="text-muted-foreground hover:text-foreground disabled:opacity-30"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               이전

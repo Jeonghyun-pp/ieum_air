@@ -53,18 +53,18 @@ export function LandingShell({ children }: LandingShellProps) {
 
   return (
     <AuthModalContext.Provider value={{ openAuthModal }}>
-      <div className="min-h-screen bg-dark-base text-white flex flex-col">
+      <div className="min-h-screen bg-white text-foreground flex flex-col">
         {/* Nav */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-[#121212]/80 backdrop-blur-lg border-b border-white/5">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200">
           <div className="max-w-6xl mx-auto flex items-center justify-between h-16 px-4">
             <Link href="/" className="text-xl font-bold text-gradient">
               StayTrend
             </Link>
             <nav className="hidden md:flex items-center gap-8">
-              <a href="#pricing" className="text-sm text-gray-400 hover:text-white transition-colors">
+              <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 요금제
               </a>
-              <button onClick={handlePortalClick} className="text-sm text-gray-400 hover:text-white transition-colors">
+              <button onClick={handlePortalClick} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 포털
               </button>
             </nav>
@@ -72,7 +72,7 @@ export function LandingShell({ children }: LandingShellProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-gray-400 hover:text-white"
+                className="text-muted-foreground hover:text-foreground"
                 onClick={() => openAuthModal('login')}
               >
                 로그인
@@ -93,19 +93,19 @@ export function LandingShell({ children }: LandingShellProps) {
         <main className="flex-1 pt-16">{children}</main>
 
         {/* Footer */}
-        <footer className="border-t border-white/5 py-12 px-4 bg-[#0a0a0a]">
+        <footer className="border-t border-gray-200 py-12 px-4 bg-gray-50">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-muted-foreground">
               © 2026 StayTrend. All rights reserved.
             </div>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-300 transition-colors">
+              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 이용약관
               </a>
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-300 transition-colors">
+              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 개인정보처리방침
               </a>
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-300 transition-colors">
+              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 문의하기
               </a>
             </div>

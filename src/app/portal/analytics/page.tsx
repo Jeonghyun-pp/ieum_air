@@ -19,12 +19,12 @@ interface AnalyticsData {
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="px-3 py-2 rounded-lg bg-dark-highlight text-sm border border-dark-highlight">
+      <div className="px-3 py-2 rounded-lg bg-dark-highlight text-sm border border-border">
         {payload.map((entry: any, i: number) => (
           <div key={i} className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-            <span className="text-[#B3B3B3]">{entry.name}: </span>
-            <span className="font-medium text-white">{entry.value}</span>
+            <span className="text-muted-foreground">{entry.name}: </span>
+            <span className="font-medium text-foreground">{entry.value}</span>
           </div>
         ))}
       </div>
@@ -46,7 +46,7 @@ export default function AnalyticsPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold mb-1">분석</h1>
-          <p className="text-[#B3B3B3]">게스트 데이터와 채널 성과를 확인하세요</p>
+          <p className="text-muted-foreground">게스트 데이터와 채널 성과를 확인하세요</p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <ChartSkeleton />
@@ -64,7 +64,7 @@ export default function AnalyticsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold mb-1">분석</h1>
-        <p className="text-[#B3B3B3]">게스트 데이터와 채널 성과를 확인하세요</p>
+        <p className="text-muted-foreground">게스트 데이터와 채널 성과를 확인하세요</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -96,7 +96,7 @@ export default function AnalyticsPage() {
               {nationalityBreakdown.map((item) => (
                 <div key={item.name} className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: item.color }} />
-                  <span className="text-sm text-[#B3B3B3]">{item.name}</span>
+                  <span className="text-sm text-muted-foreground">{item.name}</span>
                   <span className="text-sm font-semibold ml-auto">{item.value}%</span>
                 </div>
               ))}
@@ -113,7 +113,7 @@ export default function AnalyticsPage() {
                 <span className="text-2xl">{rec.flag}</span>
                 <div className="flex-1">
                   <div className="text-sm font-medium">{rec.country}</div>
-                  <div className="text-xs text-[#6A6A6A]">{rec.channels.join(', ')}</div>
+                  <div className="text-xs text-muted-foreground">{rec.channels.join(', ')}</div>
                 </div>
                 <span className="px-3 py-1 rounded-full text-xs font-medium bg-accent-gradient text-white">
                   {rec.primary}
